@@ -1,8 +1,9 @@
 #ifndef _DYNAMICARRAY_H_
 #define _DYNAMICARRAY_H_
+/* 避免文件重复包含 */
 
 typedef int ELEMENTTYPE;
-/* 避免文件重复包含 */
+
 typedef struct dynamicArray
 {
     ELEMENTTYPE *data;  /* 数组的空间 */
@@ -37,4 +38,5 @@ int dynamicArrayGetSize();
 
 /* 获取数组的容量*/
 int dynamicArrayGetCapacity();
+
 #endif //_DYNAMICARRAY_H_
