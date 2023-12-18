@@ -16,7 +16,7 @@ enum STATUS_CODE
 
 /* 静态函数前置声明 */
 static int expandDynamicCapacity(dynamicArray *pArray);
-static int shrinkDynamicCapactiy(pArray);
+static int shrinkDynamicCapactiy(dynamicArray *pArray);
 
 /* 动态数组的初始化 */
 int dynamicArrayInit(dynamicArray *pArray, int capacity)
@@ -31,7 +31,7 @@ int dynamicArrayInit(dynamicArray *pArray, int capacity)
         capacity = DEFAULT_SIZE;
     }
     //指针需要开辟空间
-    pArray->data = (ELEMENTTYPE *)(sizeof(ELEMENTTYPE) * capacity);
+    pArray->data = (ELEMENTTYPE *)malloc(sizeof(ELEMENTTYPE) * capacity);
     if(pArray->data == NULL)
     {
         return MALLOC_ERROR;
@@ -47,7 +47,7 @@ int dynamicArrayInit(dynamicArray *pArray, int capacity)
 }
 
 /* 动态数组插入数据(默认插到数组的末尾) */
-int dynamicArrayInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE val)
+int dynamicArrayInsertData(dynamicArray *pArray, ELEMENTTYPE val)
 {
     return dynamicArrayAppointPosInsertData(pArray, pArray->len, val);
 }
@@ -152,7 +152,7 @@ int dynamicArrayModifyAppointPosData(dynamicArray *pArray, int pos, ELEMENTTYPE 
 /* 动态数组删除数据 （默认情况下删除最后末尾的数据*/
 int dynamicArrayDeleteData(dynamicArray *pArray)
 {
-    dynamicArrayDeleteAppointPosDara(pArray, pArray->len - 1);
+    dynamicArrayDeleteAppointPosData(pArray, pArray->len - 1);
 }
 
 /* 缩容 */
@@ -268,6 +268,27 @@ int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity)
     if(pCapacity != NULL)
     {
         *pCapacity = pArray->capacity;
+    }
+    return ON_SUCCESS;
+}
+
+/* 获取指定位置的元素数据 */
+int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal)
+{   
+    /* 判空 */
+    if(pArray == NULL)
+    {
+        return NULL_PTR;
+    }
+    /* 判断位置 */
+    if(pos < 0 || pos >= pArray->len)
+    {
+        return INVALID_ACCESS;
+    }
+    
+    if(pVal)
+    {
+        *pVal = pArray->data[pos];
     }
     return ON_SUCCESS;
 }
