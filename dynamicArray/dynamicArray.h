@@ -6,23 +6,23 @@ typedef int ELEMENTTYPE;
 
 typedef struct dynamicArray
 {
-    ELEMENTTYPE *data;  /* 数组的空间 */
-    int len;            /* 数组的大小 */
-    int capacity;       /* 数组的容量 */
+    ELEMENTTYPE *data;  /* 数组的空间 | 动态数组指针 */
+    int len;            /* 数组的大小 | 长度*/
+    int capacity;       /* 数组的容量*/
 }dynamicArray;
 
 /* API:application program interface */
 /* 动态数组的初始化 */
-int dynamicArrayInit(dynamicArray *pArray，int capacity);
+int dynamicArrayInit(dynamicArray *pArray, int capacity);
 
 /* 动态数组插入数据(默认插到数组的末尾) */
-int dynamicArrayInsertData(dynamicArray *pArray, ELEMENTTYPE val);
+int dynamicArrayInsertData(dynamicArray *pArray, int pos,ELEMENTTYPE val);
 
 /* 动态数组插入数据，在指定位置插入 */
-int dynamicArrayAppointPosInsertData(dynamicArray *pArray, ELEMENTTYPE val);
+int dynamicArrayAppointPosInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE val);
 
 /* 动态数组修改指定位置的数据 */
-int dynamicArrayModifyAppointPosData(dynamicArray *pArray, ELEMENTTYPE val);
+int dynamicArrayModifyAppointPosData(dynamicArray *pArray, int pos, ELEMENTTYPE val);
 
 /* 动态数组删除数据 （默认情况下删除最后末尾的数据*/
 int dynamicArrayDeleteData(dynamicArray *pArray);
