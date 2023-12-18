@@ -11,7 +11,7 @@ enum STATUS_CODE
     MALLOC_ERROR,
     INVALID_ACCESS,//非法访问
 };
-//
+
 #define DEFAULT_SIZE 10
 
 /* 静态函数前置声明 */
@@ -183,7 +183,7 @@ static int shrinkDynamicCapactiy(dynamicArray *pArray)
 }
 
 /* 动态数组删除指定位置数据 */
-int dynamicArrayDeleteAppointPosDara(dynamicArray *pArray, int pos)
+int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
 {
     if(pArray == NULL)
     {
@@ -213,7 +213,61 @@ int dynamicArrayDeleteAppointPosDara(dynamicArray *pArray, int pos)
 }
 
 /* 动态数组删除指定的元素 */
-int dynamicArrayDeleteAppointDara(dynamicArray *pArray, ELEMENTTYPE val)
+int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val)
 {
-    return 0;
+    for(int idx = pArray->len - 1; idx >= 0; idx--)
+    {
+        if(val == pArray->data[idx])
+        {
+            dynamicArrayDeleteAppointPosData(pArray, idx);
+        }
+    }
+    return ON_SUCCESS;
+}
+
+/* 动态数组的销毁 */
+int dynamicArrayDestroy(dynamicArray *pArray)
+{
+    if(pArray == NULL)
+    {
+        return NULL_PTR;
+    }
+    if(pArray->data != NULL)
+    {
+        free(pArray->data);
+        pArray->data = NULL;
+    } 
+    return ON_SUCCESS;
+}
+    
+/* 获取数组的大小 */
+int dynamicArrayGetSize(dynamicArray *pArray, int *pSize)
+{
+    if(pArray == NULL)
+    {
+        return NULL_PTR;
+    }
+
+    /* 解引用 */
+    if(pSize != NULL)
+    {
+        *pSize = pArray->len;
+    }
+    return ON_SUCCESS;
+}
+
+/* 获取数组的容量*/
+int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity)
+{
+     if(pArray == NULL)
+    {
+        return NULL_PTR;
+    }
+
+    /* 解引用 */
+    if(pCapacity != NULL)
+    {
+        *pCapacity = pArray->capacity;
+    }
+    return ON_SUCCESS;
 }

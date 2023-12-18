@@ -28,10 +28,10 @@ int dynamicArrayModifyAppointPosData(dynamicArray *pArray, int pos, ELEMENTTYPE 
 int dynamicArrayDeleteData(dynamicArray *pArray);
 
 /* 动态数组删除指定位置数据 */
-int dynamicArrayDeleteAppointPosDara(dynamicArray *pArray, int pos);
+int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos);
 
 /* 动态数组删除指定的元素 */
-int dynamicArrayDeleteAppointDara(dynamicArray *pArray, ELEMENTTYPE val);
+int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val);
 
 /* 动态数组的销毁 */
 int dynamicArrayDestroy(dynamicArray *pArray);
@@ -40,6 +40,6 @@ int dynamicArrayDestroy(dynamicArray *pArray);
 int dynamicArrayGetSize(dynamicArray *pArray, int *pSize);
 
 /* 获取数组的容量*/
-int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapactiy);
+int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity);
 
 #endif //_DYNAMICARRAY_H_
