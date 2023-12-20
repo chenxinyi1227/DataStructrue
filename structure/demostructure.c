@@ -10,14 +10,15 @@
     1、将不同类型的属性封装成一个类型 
     2、结构体怎么定义？*/
 typedef struct stuInfo
-    {
-        int age;
-        int height;
-        int weight;
-        int sex;
-        char name[BUFFER_SIZE];
-        char *address;
-    }stuInfo;
+{
+    int age;
+    int height;
+    int weight;
+    int sex;
+    char name[BUFFER_SIZE];
+    char *address;
+}stuInfo;
+
 /* 取别名 typedef
 typedef struct stuInfo stuInfo; */
 
@@ -111,7 +112,7 @@ int main()
      printfStructBuffer(buffer, sizeof(buffer) / sizeof(buffer[0]));
 #endif
 
-#if 0
+#if 1
     /* 结构体指针 */
     stu.age = 10;
     stu.height = 50;
