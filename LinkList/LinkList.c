@@ -179,13 +179,28 @@ int LinkListGetLength(LinkList *pList, int *pSize)
     {
         *pSize = pList->len;
     }
-    return ret;
+    return pList->len; //返回链表长度
 }
 
 /* 链表的销毁 */
 int LinkListDestory(LinkList *pList)
 {
+    int ret = 0;
+    /* 头删释放链表 */
+    int size = 0;
+    while(LinkListGetLength(pList, &size))
+    {
+        LinkListHeadDel(pList);
+    }
 
+    if(pList->head != NULL)
+    {
+        free(pList->head);
+        /* 指针置为NULL */
+        pList->head = NULL;
+        pList->tail = NULL;
+    }
+    return ret;
 }
 
 /* 链表遍历接口 */
@@ -211,6 +226,5 @@ int LinkListForeach(LinkList *pList)
         travelNode = travelNode->next;
     }
 #endif    
-  
     return ret;
 }
