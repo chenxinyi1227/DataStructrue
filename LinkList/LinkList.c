@@ -130,6 +130,7 @@ int LinkListTailDel(LinkList *pList)
 /* 链表指定位置删除 */
 int LinkListDelAppointPos(LinkList *pList, int pos)
 {
+    int ret = 0;
     if(pList == NULL)
     {
         return NULL_PTR;
@@ -145,14 +146,26 @@ int LinkListDelAppointPos(LinkList *pList, int pos)
 #else
 LinkNode * travelNode = pList->head->next;
 #endif
+    int flag = 0;
+    /* 需要修改尾指针 */
+    if(pos == pList->len)
+    {
+        flag = 1;
+    }
+
+    LinkNode * needDelNode = NULL;
     while(--pos)
     {
         travelNode = travelNode->next;//向后移动位置
-        // pos--;
     }
     /* 跳出循环的是哪一个节点 */
-    LinkNode * needDelNode = travelNode->next;
+    needDelNode = travelNode->next;
     travelNode->next = needDelNode->next;
+
+    if(flag)
+    {
+        pList->tail = travelNode;    //调整尾指针
+    }
 
     /* 释放内存 */
     if(needDelNode != NULL)
@@ -161,8 +174,8 @@ LinkNode * travelNode = pList->head->next;
         needDelNode = NULL;
     }
 
-    pList->len--;                   //链表长度减一
-    return 0;
+    pList->len--;      //链表长度减一
+    return ret;
 }
 
 /* 根据指定的元素得到在链表中所在的位置 */
@@ -188,7 +201,7 @@ static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, i
         pos++;
     }
     /* 解除解引用 */
-    pos = *pPos;
+    pos = pPos;
     return NOT_FIND;
 }
 
