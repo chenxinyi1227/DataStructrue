@@ -21,7 +21,7 @@ static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, i
 int LinkListInit(LinkList **pList)
 {
     int ret = 0;
-    LinkList *list = (LinkList *)(sizeof(LinkList) * 1);
+    LinkList *list = (LinkList *)malloc(sizeof(LinkList) * 1);
     if(list == NULL)
     {
         return MALLOC_ERROR;
@@ -36,7 +36,7 @@ int LinkListInit(LinkList **pList)
     memset(list->head, 0, sizeof(LinkNode *));  //清空脏数据
     list->head->data = 0;
     list->head->next = NULL;
-    list->tail->next = list->head;  //尾指针初始化时,尾指针 = 头指针
+    list->tail = list->head;  //尾指针初始化时,尾指针 = 头指针
 
     list->len = 0;                  //链表的长度为0
 
@@ -201,7 +201,7 @@ static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, i
         pos++;
     }
     /* 解除解引用 */
-    pos = pPos;
+    *pPos = NOT_FIND;
     return NOT_FIND;
 }
 
@@ -258,8 +258,9 @@ int LinkListDestory(LinkList *pList)
 }
 
 /* 链表遍历接口 */
-int LinkListForeach(LinkList *pList)
+int LinkListForeach(LinkList *pList, int(*printFunc)(ELEMENTYPE))
 {
+
     int ret = 0;
     if(pList == NULL)
     {
@@ -276,7 +277,12 @@ int LinkListForeach(LinkList *pList)
     LinkNode * travelNode = pList->head->next;  //travelNOde 指向链表第一个元素 
     while(travelNode != NULL)
     {
-        printf("travelNode->data:%d\n", travelNode->data);
+        #if 0
+        printf("travelNode->data:%d\n", travelNode->data);//travelNode->data放的是地址
+        #else
+        /* 包装器（C++) 钩子函数-回调函数（C) */
+        printFunc(travelNode->data);
+        #endif
         travelNode = travelNode->next;
     }
 #endif    
