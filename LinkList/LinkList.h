@@ -6,8 +6,8 @@
 /* 链表节点取别名 */
 typedef struct LinkNode
 {
-    ELEMENTYPE data;
-    struct LinkNode *next;      //指向下一个结点的指针 / 指针的类型为什么是节点？
+    ELEMENTYPE data;            //数据域：存储节点数据信息
+    struct LinkNode *next;      //指针域：存储直接后继节点的地址 （指向下一个结点的指针  指针的类型为什么是节点？)
 }LinkNode;
 
 typedef struct LinkList
@@ -26,7 +26,7 @@ int LinkListHeadInsert(LinkList *pList, ELEMENTYPE val);
 int LinkListTailInsert(LinkList *pList, ELEMENTYPE val);
 
 /* 链表指定位置插入 */
-int LinkListAppointPosInsert(LinkList**pList, int pos, ELEMENTYPE val);
+int LinkListAppointPosInsert(LinkList *pList, int pos, ELEMENTYPE val);
 
 /* 链表头删 */
 int LinkListHeadDel(LinkList *pList);
