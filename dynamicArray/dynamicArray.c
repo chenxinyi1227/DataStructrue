@@ -6,13 +6,16 @@
 /* 状态码 */
 enum STATUS_CODE
 {
-    ON_SUCCESS,
-    NULL_PTR,
-    MALLOC_ERROR,
-    INVALID_ACCESS,//非法访问
+        ON_SUCCESS,
+        NULL_PTR,
+        MALLOC_ERROR,
+        INVALID_ACCESS,//非法访问
 };
 
 #define DEFAULT_SIZE 10
+
+#define ISNULL(pArray)          if(pArray == NULL)                return NULL_PTR
+#define ISINVALID(pArray,pos)   if(pos < 0 || pos > pArray->len)  return INVALID_ACCESS
 
 /* 静态函数前置声明 */
 static int expandDynamicCapacity(dynamicArray *pArray);
@@ -21,15 +24,17 @@ static int shrinkDynamicCapactiy(dynamicArray *pArray);
 /* 动态数组的初始化 */
 int dynamicArrayInit(dynamicArray *pArray, int capacity)
 {
-    if(pArray == NULL)
-    {
-        return NULL_PTR;
-    }
+    // if(pArray == NULL)
+    // {
+    //     return NULL_PTR;
+    // }
+    ISNULL(pArray);
     /* 避免传入非法值 */
     if(capacity < 0)
     {
         capacity = DEFAULT_SIZE;
     }
+
     //指针需要开辟空间
     pArray->data = (ELEMENTTYPE *)malloc(sizeof(ELEMENTTYPE) * capacity);
     if(pArray->data == NULL)
@@ -57,7 +62,7 @@ static int expandDynamicCapacity(dynamicArray *pArray)
 {
     int ret = 0;
     int needExpandCapacity = pArray->capacity + (pArray->capacity >> 1);
-    
+  
     /* 备份指针 */
     ELEMENTTYPE *tmpPtr = pArray->data;
     pArray->data = (ELEMENTTYPE *)(sizeof(ELEMENTTYPE) * needExpandCapacity);
@@ -67,7 +72,7 @@ static int expandDynamicCapacity(dynamicArray *pArray)
     }
 
     /* 把之前的数据全部拷贝过来 */
-    for(int idx = 0; idx < pArray->len; idx--)
+    for(int idx = 0; idx < pArray->len; idx++)
     {
         pArray->data[idx] = tmpPtr[idx];
     }
@@ -98,6 +103,7 @@ int dynamicArrayAppointPosInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE 
     {
         return INVALID_ACCESS;
     }
+    
 #if 1
     /* 数组扩容的临界值是：数组的大小的1.5倍大于数组容量 */
     if((pArray ->len + (pArray->len >> 1)) >= pArray->capacity)
@@ -105,7 +111,6 @@ int dynamicArrayAppointPosInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE 
         /* 开始扩容 */
         expandDynamicCapacity(pArray);
     }
-#else
 #endif  
 
 #if 1
@@ -159,6 +164,7 @@ int dynamicArrayDeleteData(dynamicArray *pArray)
 static int shrinkDynamicCapactiy(dynamicArray *pArray)
 {
     int neddshrinkCapacity = pArray->capacity - (pArray->capacity >> 1); 
+
     /* 备份数据 */
     ELEMENTTYPE *tmpPtr = pArray->data;
     pArray->data =(ELEMENTTYPE *) malloc(sizeof(ELEMENTTYPE) + neddshrinkCapacity);
@@ -167,7 +173,7 @@ static int shrinkDynamicCapactiy(dynamicArray *pArray)
         return MALLOC_ERROR;
     }
     /* 拷贝之前的数据到新的空间 */
-    for(int idx = 0; idx < pArray->len; idx)
+    for(int idx = 0; idx < pArray->len; idx++)
     {
         pArray->data[idx] = tmpPtr[idx];
     }
@@ -194,7 +200,7 @@ int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
     {
         return INVALID_ACCESS;
     }
-
+    
     /* 缩容 */
     if(pArray->len < pArray->capacity >> 1)
     {   
@@ -213,14 +219,23 @@ int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
 }
 
 /* 动态数组删除指定的元素 */
-int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val)
+int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val,  int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {
     for(int idx = pArray->len - 1; idx >= 0; idx--)
     {
         if(val == pArray->data[idx])
+        #if 1
+        if(*(int *)val == *(int *)(pArray->data[idx]))
         {
             dynamicArrayDeleteAppointPosData(pArray, idx);
         }
+        #else
+        int ret = compareFunc(val, pArray->data[idx]);
+        if(ret == 1)
+        {
+            dynamicArrayDeleteAppointPosData(pArray, idx);
+        }
+        #endif
     }
     return ON_SUCCESS;
 }
@@ -253,7 +268,8 @@ int dynamicArrayGetSize(dynamicArray *pArray, int *pSize)
     {
         *pSize = pArray->len;
     }
-    return ON_SUCCESS;
+   // return ON_SUCCESS;
+    return pArray->len;
 }
 
 /* 获取数组的容量*/
@@ -291,4 +307,12 @@ int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVa
         *pVal = pArray->data[pos];
     }
     return ON_SUCCESS;
+}
+
+/* 数组排序 */
+int dynamicArrayAppointWaySort(dynamicArray *pArray, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+{
+    int ret = 0;
+
+    return ret;
 }
