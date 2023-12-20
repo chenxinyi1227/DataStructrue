@@ -9,7 +9,7 @@ enum STATUS_CODE
         ON_SUCCESS,
         NULL_PTR,
         MALLOC_ERROR,
-        INVALID_ACCESS,       //非法访问
+        INVALID_ACCESS,    //非法访问
 };
 
 /* 链表初始化 */
@@ -31,6 +31,7 @@ int LinkListInit(LinkList **pList)
     memset(list->head, 0, sizeof(LinkNode *));  //清空脏数据
     list->head->data = 0;
     list->head->next = NULL;
+    list->tail->next = list->head;  //尾指针初始化时,尾指针 = 头指针
 
     list->len = 0;                  //链表的长度为0
 
@@ -80,16 +81,32 @@ int LinkListAppointPosInsert(LinkList *pList, int pos, ELEMENTYPE val)
 #else
     LinkNode * travelNode = pList->head->next;
 #endif
-    while(pos)
+    int flag = 0;
+    if(pos == pList->len)                       //这种情况下需要更改尾指针
     {
-        travelNode = travelNode->next;
-        pos--;
+        travelNode = pList->tail;               // 修改节点指向
+#if 0
+        // newNode->next == travelNode->next;  
+        // travelNode->next = newNode;
+#endif
+        flag = 1;
     }
-    /* 修改节点指向 */
-    newNode->next == travelNode->next;  
+    else
+    {
+        while(pos)
+        {
+            travelNode = travelNode->next;
+            pos--;
+        }
+    }
+    newNode->next = travelNode->next;  
     travelNode->next = newNode;
+    if(flag)
+    {
+        pList->tail = newNode;  //尾指针更新为位置
+    }
 
-    (pList->len)++; //更新链表长度
+    (pList->len)++;             //更新链表长度
     return ret;
 }
 
