@@ -289,7 +289,7 @@ int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity)
 }
 
 /* 获取指定位置的元素数据 */
-int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal)
+int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE val, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {   
     /* 判空 */
     if(pArray == NULL)
@@ -301,12 +301,29 @@ int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVa
     {
         return INVALID_ACCESS;
     }
-    
+#if 0
     if(pVal)
     {
         *pVal = pArray->data[pos];
     }
     return ON_SUCCESS;
+#endif
+    for(int idx = pArray->len - 1;idx >= 0; idx--)
+    {
+        #if 0
+        if(*(int*)val == *(int *)(pArray->data[idx]))
+        {
+            dynamicArrayDeleteAppointPosData(pArray, idx);
+        }
+        #else
+        int ret = compareFunc(val, pArray->data[idx]);
+        if(ret == 1)
+        {
+            dynamicArrayDeleteAppointPosData(pArray, idx);
+        }
+        #endif
+    return ON_SUCCESS;  
+    }
 }
 
 /* 数组排序 */
