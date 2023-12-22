@@ -242,7 +242,6 @@ static int DoubleLinkListAccordingApppointValGetPos(DoubleLinkList *pList, ELEME
        #endif
         travelNode = travelNode->next;
         pos++;
-       
     }
     /* 解除解引用 */
     *pPos = NOT_FIND;
@@ -330,5 +329,26 @@ int DoubleLinkListForeach(DoubleLinkList *pList, int(*printFunc)(ELEMENTTYPE))
         travelNode = travelNode->next;
     }
 #endif    
+    return ret;
+}
+
+/* 链表逆序遍历接口 */
+int DoubleLinkListReverseForeach(DoubleLinkList *pList, int(*printFunc)(ELEMENTTYPE))
+{
+
+    int ret = 0;
+    if(pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    /* 标记到尾指针 */
+    DoubleLinkNode * travelNode = pList->tail;  //travelNde 指向链表最后一个元素 
+    while(travelNode != pList->head)
+    {    
+        /* 包装器（C++) 钩子函数-回调函数（C) */
+        printFunc(travelNode->data);
+        /* 移动前指针 */
+        travelNode = travelNode->prev;
+    } 
     return ret;
 }
