@@ -38,8 +38,9 @@ int DoubleLinkListInit(DoubleLinkList **pList)
     memset(list->head, 0, sizeof(DoubleLinkNode *));  //清空脏数据
     list->head->data = 0;
     list->head->next = NULL;
+     list->head->prev = NULL;  //虚拟头节点的prev指针指向NULL
     list->tail = list->head;  //尾指针初始化时,尾指针 = 头指针
-    list->head->next->prev = NULL;//?
+   
     list->len = 0;                  //链表的长度为0
 
     *pList = list;                  // 二级指针 
@@ -130,11 +131,12 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTTYPE v
             travelNode = travelNode->next;
             pos--;
         }
+        travelNode->next->prev = newNode;  //3:空链表 / 尾插
     }
     newNode->next = travelNode->next;  //1
     newNode->prev = travelNode;        //2
-    travelNode->next->prev = newNode;  //3
     travelNode = newNode;              //4
+    
     if(flag)
     {
         pList->tail = newNode;  //尾指针更新为位置
