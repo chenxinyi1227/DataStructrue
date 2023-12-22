@@ -6,10 +6,10 @@
 /* 状态码 */
 enum STATUS_CODE
 {
-        ON_SUCCESS,
-        NULL_PTR,
-        MALLOC_ERROR,
-        INVALID_ACCESS,//非法访问
+    ON_SUCCESS,
+    NULL_PTR,
+    MALLOC_ERROR,
+    INVALID_ACCESS,//非法访问
 };
 
 #define DEFAULT_SIZE 10
@@ -288,9 +288,8 @@ int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity)
     return ON_SUCCESS;
 }
 
-/* 获取指定位置的元素数据 */
-int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE val, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
-{   
+int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+{  
     /* 判空 */
     if(pArray == NULL)
     {
