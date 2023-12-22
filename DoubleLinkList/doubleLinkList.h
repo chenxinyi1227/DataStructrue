@@ -11,43 +11,43 @@ typedef struct DoubleLinkNode
     struct DoubleLinkNode *next;    //指针域：存储直接后继节点的地址 （指向下一个结点的指针  指针的类型为什么是节点？)
 }DoubleLinkNode;
 
-typedef struct LinkList
+typedef struct DoubleLinkList
 {
     DoubleLinkNode * head;            //链表的虚拟头节点：1、数据域无意义 2、只使用指针域
     DoubleLinkNode * tail;            //为什么尾指针不需要分配空间？
     int len;                    //链表的长度
-}LinkList;
+}DoubleLinkList;
 
 /* 链表初始化 */
-int LinkListInit(LinkList **pList);
+int DoubleLinkListInit(DoubleLinkList **pList);
 
 /* 链表头插 */
-int LinkListHeadInsert(LinkList *pList, ELEMENTYPE val);
+int DoubleLinkListHeadInsert(DoubleLinkList *pList, ELEMENTYPE val);
 
 /* 链表尾插 */
-int LinkListTailInsert(LinkList *pList, ELEMENTYPE val);
+int DoubleLinkListTailInsert(DoubleLinkList *pList, ELEMENTYPE val);
 
 /* 链表指定位置插入 */
-int LinkListAppointPosInsert(LinkList *pList, int pos, ELEMENTYPE val);
+int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTYPE val);
 
 /* 链表头删 */
-int LinkListHeadDel(LinkList *pList);
+int DoubleLinkListHeadDel(DoubleLinkList *pList);
 
 /* 链表尾删 */
-int LinkListTailDel(LinkList *pList);
+int DoubleLinkListTailDel(DoubleLinkList *pList);
 
 /* 链表指定位置删除 */
-int LinkListDelAppointPos(LinkList *pList, int pos);
+int DoubleLinkListDelAppointPos(DoubleLinkList *pList, int pos);
 
 /* 链表删除指定数据 */
-int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE));
+int DoubleLinkListDelAppointData(DoubleLinkList *pList, ELEMENTYPE val, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE));
 
 /* 获取链表的长度 */
-int LinkListGetLength(LinkList *pList, int *pSize);
+int DoubleLinkListGetLength(DoubleLinkList *pList, int *pSize);
 
 /* 链表的销毁 */
-int LinkListDestory(LinkList *pList);
+int DoubleLinkListDestory(DoubleLinkList *pList);
 
 /* 链表遍历接口 */
-int LinkListForeach(LinkList *pList, int(*printFunc)(ELEMENTYPE));
+int DoubleLinkListForeach(DoubleLinkList *pList, int(*printFunc)(ELEMENTYPE));
 #endif

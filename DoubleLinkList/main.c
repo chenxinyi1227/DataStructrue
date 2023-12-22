@@ -28,7 +28,7 @@ int main()
 
 #if 1
 
-    LinkList *list = NULL;
+    DoubleLinkList *list = NULL;
     LinkListInit(&list);    //初始化链表
 
 #if 1
