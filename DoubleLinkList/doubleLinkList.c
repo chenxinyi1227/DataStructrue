@@ -38,7 +38,7 @@ int DoubleLinkListInit(DoubleLinkList **pList)
     memset(list->head, 0, sizeof(DoubleLinkNode *));  //清空脏数据
     list->head->data = 0;
     list->head->next = NULL;
-     list->head->prev = NULL;  //虚拟头节点的prev指针指向NULL
+    list->head->prev = NULL;  //虚拟头节点的prev指针指向NULL
     list->tail = list->head;  //尾指针初始化时,尾指针 = 头指针
    
     list->len = 0;                  //链表的长度为0
@@ -73,10 +73,10 @@ static DoubleLinkNode *createDoubleLinkList(ELEMENTTYPE val)
 #if 1
     newNode->data = 0;
     newNode->next = NULL;
-    newNode->prev = NULL;
+    newNode->prev = NULL;//新建的prev节点
 #endif
     newNode->data = val;                        //赋值
-    return newNode;//返回新阶段
+    return newNode;//返回新节点
 }
 
 /* 链表指定位置插入 */
@@ -94,6 +94,7 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTTYPE v
 
     /* 新建新节点封装成函数 */
     DoubleLinkNode * newNode = createDoubleLinkList(val);
+
 #if 0
     /* 封装结点 */
     DoubleLinkNode * newNode = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode *) * 1);
@@ -136,7 +137,7 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTTYPE v
     newNode->next = travelNode->next;  //1
     newNode->prev = travelNode;        //2
     travelNode = newNode;              //4
-    
+
     if(flag)
     {
         pList->tail = newNode;  //尾指针更新为位置
@@ -177,27 +178,29 @@ int DoubleLinkListDelAppointPos(DoubleLinkList *pList, int pos)
 #else
 DoubleLinkNode * travelNode = pList->head->next;
 #endif
-    int flag = 0;
+    DoubleLinkNode * needDelNode = NULL;
     /* 需要修改尾指针 */
     if(pos == pList->len)
     {
-        flag = 1;
-    }
+ 
+        /* 备份尾指针 */
+        DoubleLinkNode * tmpNode = pList->tail;
+        pList->tail = pList->tail->prev;
+        needDelNode = tmpNode;
 
-    DoubleLinkNode * needDelNode = NULL;
-    while(--pos)
-    {
-        travelNode = travelNode->next;//向后移动位置
     }
-    /* 跳出循环的是哪一个节点 */
-    needDelNode = travelNode->next;
-    travelNode->next = needDelNode->next;
-
-    if(flag)
-    {
-        pList->tail = travelNode;    //调整尾指针
-    }
-
+   else
+   {
+        while(--pos)
+        {
+            travelNode = travelNode->next;//向后移动位置
+        }
+        /* 跳出循环的是哪一个节点 */
+        needDelNode = travelNode->next;         //1
+        travelNode->next = needDelNode->next;   //2
+        needDelNode->next->prev = travelNode;   //3
+   }
+    
     /* 释放内存 */
     if(needDelNode != NULL)
     {
