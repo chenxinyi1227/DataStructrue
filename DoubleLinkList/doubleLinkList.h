@@ -1,12 +1,12 @@
 #ifndef _DOUBLELISTLINK_H_
 #define _DOUBLELISTLINK_H_
 
-#define ELEMENTYPE void*
+#define ELEMENTTYPE void*
 
 /* 链表节点取别名 */
 typedef struct DoubleLinkNode
 {
-    ELEMENTYPE data;                //数据域：存储节点数据信息
+    ELEMENTTYPE data;                //数据域：存储节点数据信息
     struct DoubleLinkNode *prev;    //指向前一节点
     struct DoubleLinkNode *next;    //指针域：存储直接后继节点的地址 （指向下一个结点的指针  指针的类型为什么是节点？)
 }DoubleLinkNode;
@@ -22,13 +22,13 @@ typedef struct DoubleLinkList
 int DoubleLinkListInit(DoubleLinkList **pList);
 
 /* 链表头插 */
-int DoubleLinkListHeadInsert(DoubleLinkList *pList, ELEMENTYPE val);
+int DoubleLinkListHeadInsert(DoubleLinkList *pList, ELEMENTTYPE val);
 
 /* 链表尾插 */
-int DoubleLinkListTailInsert(DoubleLinkList *pList, ELEMENTYPE val);
+int DoubleLinkListTailInsert(DoubleLinkList *pList, ELEMENTTYPE val);
 
 /* 链表指定位置插入 */
-int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTYPE val);
+int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTTYPE val);
 
 /* 链表头删 */
 int DoubleLinkListHeadDel(DoubleLinkList *pList);
@@ -40,7 +40,7 @@ int DoubleLinkListTailDel(DoubleLinkList *pList);
 int DoubleLinkListDelAppointPos(DoubleLinkList *pList, int pos);
 
 /* 链表删除指定数据 */
-int DoubleLinkListDelAppointData(DoubleLinkList *pList, ELEMENTYPE val, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE));
+int DoubleLinkListDelAppointData(DoubleLinkList *pList, ELEMENTTYPE val, int(*compareFunc)(ELEMENTTYPE,ELEMENTTYPE));
 
 /* 获取链表的长度 */
 int DoubleLinkListGetLength(DoubleLinkList *pList, int *pSize);
@@ -49,5 +49,5 @@ int DoubleLinkListGetLength(DoubleLinkList *pList, int *pSize);
 int DoubleLinkListDestory(DoubleLinkList *pList);
 
 /* 链表遍历接口 */
-int DoubleLinkListForeach(DoubleLinkList *pList, int(*printFunc)(ELEMENTYPE));
+int DoubleLinkListForeach(DoubleLinkList *pList, int(*printFunc)(ELEMENTTYPE));
 #endif

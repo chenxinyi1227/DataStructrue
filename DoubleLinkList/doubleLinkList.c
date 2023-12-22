@@ -15,7 +15,9 @@ enum STATUS_CODE
 
 /* 静态函数只给本源文件（.c)的函数使用 */
 /* 静态前置声明 */
-static int DoubleLinkListAccordingApppointValGetPos(DoubleLinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE));
+static int DoubleLinkListAccordingApppointValGetPos(DoubleLinkList *pList, ELEMENTTYPE val, int *pPos, int(*compareFunc)(ELEMENTTYPE,ELEMENTTYPE));
+/* 新建新节点封装成函数 */
+static DoubleLinkNode *createDoubleLinkList(ELEMENTTYPE val);
 
 /* 链表初始化 */
 int DoubleLinkListInit(DoubleLinkList **pList)
@@ -37,7 +39,7 @@ int DoubleLinkListInit(DoubleLinkList **pList)
     list->head->data = 0;
     list->head->next = NULL;
     list->tail = list->head;  //尾指针初始化时,尾指针 = 头指针
-
+    list->head->next->prev = NULL;//?
     list->len = 0;                  //链表的长度为0
 
     *pList = list;                  // 二级指针 
@@ -45,20 +47,39 @@ int DoubleLinkListInit(DoubleLinkList **pList)
 }
 
 /* 链表头插 */
-int DoubleLinkListHeadInsert(DoubleLinkList *pList, ELEMENTYPE val)
+int DoubleLinkListHeadInsert(DoubleLinkList *pList, ELEMENTTYPE val)
 {
     return DoubleLinkListAppointPosInsert(pList, 0, val);
 }
 
 /* 链表尾插 */
-int DoubleLinkListTailInsert(DoubleLinkList *pList, ELEMENTYPE val)
+int DoubleLinkListTailInsert(DoubleLinkList *pList, ELEMENTTYPE val)
 {
     /* todo... */
     return DoubleLinkListAppointPosInsert(pList, pList->len, val);
 }
 
+/* 新建新节点封装成函数 */
+static DoubleLinkNode *createDoubleLinkList(ELEMENTTYPE val)
+{
+    /* 封装节点 */
+    DoubleLinkNode * newNode = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode *) * 1);
+    if(newNode == NULL)
+    {
+        return NULL;
+    }
+    memset(newNode, 0 , sizeof(DoubleLinkNode *) * 1);//清除脏数据
+#if 1
+    newNode->data = 0;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+#endif
+    newNode->data = val;                        //赋值
+    return newNode;//返回新阶段
+}
+
 /* 链表指定位置插入 */
-int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTYPE val)
+int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTTYPE val)
 {
     int ret = 0;
     if(pList == NULL)
@@ -69,6 +90,10 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTYPE va
     {
         return INVALID_ACCESS;
     }
+
+    /* 新建新节点封装成函数 */
+    DoubleLinkNode * newNode = createDoubleLinkList(val);
+#if 0
     /* 封装结点 */
     DoubleLinkNode * newNode = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode *) * 1);
     if(newNode == NULL)
@@ -81,6 +106,8 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTYPE va
     newNode->next = NULL;
 #endif
     newNode->data = val;                        //赋值
+#endif
+
 #if 1
     DoubleLinkNode * travelNode = pList->head;        //从虚拟头结点开始遍历
 #else
@@ -104,8 +131,10 @@ int DoubleLinkListAppointPosInsert(DoubleLinkList *pList, int pos, ELEMENTYPE va
             pos--;
         }
     }
-    newNode->next = travelNode->next;  
-    travelNode->next = newNode;
+    newNode->next = travelNode->next;  //1
+    newNode->prev = travelNode;        //2
+    travelNode->next->prev = newNode;  //3
+    travelNode = newNode;              //4
     if(flag)
     {
         pList->tail = newNode;  //尾指针更新为位置
@@ -179,7 +208,7 @@ DoubleLinkNode * travelNode = pList->head->next;
 }
 
 /* 根据指定的元素得到在链表中所在的位置 */
-static int DoubleLinkListAccordingApppointValGetPos(DoubleLinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE))
+static int DoubleLinkListAccordingApppointValGetPos(DoubleLinkList *pList, ELEMENTTYPE val, int *pPos, int(*compareFunc)(ELEMENTTYPE,ELEMENTTYPE))
 {
     /* 静态函数只给本源文件的函数使用，不需要判断合法性 */
     int ret;
@@ -216,7 +245,7 @@ static int DoubleLinkListAccordingApppointValGetPos(DoubleLinkList *pList, ELEME
 }
 
 /* 链表删除指定数据 */ 
-int DoubleLinkListDelAppointData(DoubleLinkList *pList, ELEMENTYPE val, int (*compareFunc)(ELEMENTYPE,ELEMENTYPE))//??
+int DoubleLinkListDelAppointData(DoubleLinkList *pList, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE,ELEMENTTYPE))//??
 {
     int ret = 0;
     int pos = 0;        //元素在链表中的位置
@@ -268,7 +297,7 @@ int DoubleLinkListDestory(DoubleLinkList *pList)
 }
 
 /* 链表遍历接口 */
-int DoubleLinkListForeach(DoubleLinkList *pList, int(*printFunc)(ELEMENTYPE))
+int DoubleLinkListForeach(DoubleLinkList *pList, int(*printFunc)(ELEMENTTYPE))
 {
 
     int ret = 0;
