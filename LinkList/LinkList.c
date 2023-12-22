@@ -15,7 +15,7 @@ enum STATUS_CODE
 
 /* 静态函数只给本源文件（.c)的函数使用 */
 /* 静态前置声明 */
-static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos);
+static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE));
 
 /* 链表初始化 */
 int LinkListInit(LinkList **pList)
@@ -179,7 +179,7 @@ LinkNode * travelNode = pList->head->next;
 }
 
 /* 根据指定的元素得到在链表中所在的位置 */
-static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos)
+static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE))
 {
     /* 静态函数只给本源文件的函数使用，不需要判断合法性 */
     int ret;
@@ -189,24 +189,34 @@ static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, i
     int pos = 1;
     LinkNode *travelNode = pList->head->next;
 #endif
-
+    int cmp = 0;
     while(travelNode != NULL)
     {
+        #if 0
         if(travelNode->data == val)
         {
             *pPos = pos;//解引用
             return pos;
         }
+        #else
+       cmp = compareFunc(val, travelNode->data);
+       if(cmp == 0)
+       {
+            *pPos = pos;//解引用
+            return pos;
+       }
+       #endif
         travelNode = travelNode->next;
         pos++;
+       
     }
     /* 解除解引用 */
     *pPos = NOT_FIND;
     return NOT_FIND;
 }
 
-/* 链表删除指定数据 */
-int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val)
+/* 链表删除指定数据 */ 
+int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val, int (*compareFunc)(ELEMENTYPE,ELEMENTYPE))//??
 {
     int ret = 0;
     int pos = 0;        //元素在链表中的位置
@@ -214,7 +224,7 @@ int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val)
     while(LinkListGetLength(pList, &size) && pos != NOT_FIND)
     {
         /* 根据指定的元素得到在链表中所在的位置 */    
-        LinkListAccordingApppointValGetPos(pList, val, &pos);
+        LinkListAccordingApppointValGetPos(pList, val, &pos, compareFunc);
         LinkListDelAppointPos(pList, pos);
     }
     return ret;
@@ -274,7 +284,7 @@ int LinkListForeach(LinkList *pList, int(*printFunc)(ELEMENTYPE))
         printf("travelNode->data:%d\n", travelNode->data);
     }
 #else
-    LinkNode * travelNode = pList->head->next;  //travelNOde 指向链表第一个元素 
+    LinkNode * travelNode = pList->head->next;  //travelNde 指向链表第一个元素 
     while(travelNode != NULL)
     {
         #if 0

@@ -25,6 +25,7 @@ int printBasicData(void *arg)
 
 int main()
 {
+
 #if 1
 
     LinkList *list = NULL;
@@ -39,8 +40,39 @@ int main()
     int size = 0;
     LinkListGetLength(list,&size);//获取链表的长度
     printf("size:%d\n", size);
-
     LinkListForeach(list, printBasicData);
+    printf("\n");
+
+    {
+        int pos = 1;
+        LinkListDelAppointPos(list, pos);//指定位置删除
+        LinkListForeach(list, printBasicData);
+        printf("\n");
+    }
+    
+    {
+        LinkListTailDel(list);
+        LinkListForeach(list, printBasicData);
+        printf("\n");
+        LinkListHeadDel(list);
+        LinkListForeach(list, printBasicData);
+        printf("\n");
+    }
+
+    {
+        int val = 4;
+        int val1 = 7;
+        LinkListAppointPosInsert(list, 1, &val);//按指定位置插入
+        LinkListTailInsert(list, &val1);
+        LinkListForeach(list, printBasicData);
+        printf("\n");
+    }
+
+    {
+        LinkListDestory(list);
+        LinkListForeach(list, printBasicData);
+
+    }
 #else
     stuInfo stu1, stu2, stu3;
     memset(&stu1, 0, sizeof(stu1));
@@ -78,6 +110,8 @@ int main()
 //     }
     #endif
 
+
 #endif
+   
     return 0;
 }
