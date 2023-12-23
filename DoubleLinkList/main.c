@@ -20,54 +20,69 @@ int printStruct(void *arg)
 int printBasicData(void *arg)
 {
     int data = *(int *)arg;
-    printf("data:%d\n", data);
+    printf("data:%d\t", data);
+}
+
+int compare(void *pvData1, void *pvData2)
+{
+    int num1 = *(int *)pvData1;
+    int num2 = *(int *)pvData2;
+    return num1 == num2 ? 0 : 1;
 }
 
 int main()
 {
 
 #if 1
-
-    DoubleLinkList *list = NULL;
-    LinkListInit(&list);    //初始化链表
+    doubleLinkList *list = NULL;
+    doubleLinkListInit(&list);    //初始化链表
 
 #if 1
     int buffer[BUFFER_SIZE] = {1, 2, 3};
     for(int idx = 0; idx < BUFFER_SIZE; idx++)//插入数据
     {
-        LinkListHeadInsert(list, (void *)&buffer[idx]);
+        doubleLinkListHeadInsert(list, (void *)&buffer[idx]);
     }
     int size = 0;
-    LinkListGetLength(list,&size);//获取链表的长度
+    doubleLinkListGetLength(list,&size);//获取链表的长度
     printf("size:%d\n", size);
-    LinkListForeach(list, printBasicData);
-    printf("\n");
+    doubleLinkListForeach(list, printBasicData);
+
+    {
+        printf("\n测试按指定位置插入\n");
+        int val = 4;
+        doubleLinkListAppointPosInsert(list, 0, &val);//按指定位置插入
+        doubleLinkListForeach(list, printBasicData);
+        printf("\n测试尾插\n");
+        int val1 = 7;
+        doubleLinkListTailInsert(list, &val1);//尾插
+        doubleLinkListForeach(list, printBasicData);
+        printf("\n逆序遍历\n");
+        doubleLinkListReverseForeach(list, printBasicData);
+    }
+
 
     {
         int pos = 1;
-        LinkListDelAppointPos(list, pos);//指定位置删除
-        LinkListForeach(list, printBasicData);
-        printf("\n");
+        printf("\n测试指定位置删除\n");
+        doubleLinkListDelAppointPos(list, pos);//指定位置删除
+        doubleLinkListForeach(list, printBasicData);
+        printf("\n测试尾删\n");
+        doubleLinkListTailDel(list);
+        doubleLinkListForeach(list, printBasicData);
+        printf("\n测试头删\n");
+        doubleLinkListHeadDel(list);//头删
+        doubleLinkListForeach(list, printBasicData);
+        
+    }
+
+    {
+        printf("测试链表删除指定数据:\n");
+        int val = 1;
+        doubleLinkListDelAppointData(list, &val, compare);
+        doubleLinkListForeach(list, printBasicData);
     }
     
-    {
-        LinkListTailDel(list);
-        LinkListForeach(list, printBasicData);
-        printf("\n");
-        LinkListHeadDel(list);
-        LinkListForeach(list, printBasicData);
-        printf("\n");
-    }
-
-    {
-        int val = 4;
-        int val1 = 7;
-        LinkListAppointPosInsert(list, 1, &val);//按指定位置插入
-        LinkListTailInsert(list, &val1);
-        LinkListForeach(list, printBasicData);
-        printf("\n");
-    }
-
 #else
     stuInfo stu1, stu2, stu3;
     memset(&stu1, 0, sizeof(stu1));
@@ -87,14 +102,14 @@ int main()
     stuInfo buffer[BUFFER_SIZE] = {stu1, stu2, stu3};
     for(int idx = 0; idx < BUFFER_SIZE; idx++)
     {
-        LinkListHeadInsert(list, (void *)&buffer[idx]);
+        doubleLinkListHeadInsert(list, (void *)&buffer[idx]);
     }
  
      int size = 0;
-    LinkListGetLength(list,&size);//获取链表的长度
+    doubleLinkListGetLength(list,&size);//获取链表的长度
     printf("size:%d\n", size);
 
-    LinkListForeach(list, printStruct);      //遍历
+    doubleLinkListForeach(list, printStruct);      //遍历
 
 //     stuInfo *info = NULL;  //二级指针 
 //    // memset(&info, 0, sizeof(info));
