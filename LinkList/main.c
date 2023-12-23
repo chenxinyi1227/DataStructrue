@@ -23,6 +23,13 @@ int printBasicData(void *arg)
     printf("data:%d\n", data);
 }
 
+int compare(void *pvData1, void *pvData2)
+{
+    int num1 = *(int *)pvData1;
+    int num2 = *(int *)pvData2;
+    return num1 == num2 ? 0 : 1;
+}
+
 int main()
 {
 
@@ -41,38 +48,38 @@ int main()
     LinkListGetLength(list,&size);//获取链表的长度
     printf("size:%d\n", size);
     LinkListForeach(list, printBasicData);
-    printf("\n");
 
     {
-        int pos = 1;
+        printf("\n测试按指定位置插入\n");
+        int val = 4;
+        LinkListAppointPosInsert(list, 1, &val);//按指定位置插入
+        LinkListForeach(list, printBasicData);
+        printf("\n测试尾插\n");
+        int val1 = 7;
+        LinkListTailInsert(list, &val1);
+        LinkListForeach(list, printBasicData);
+    }
+
+    {
+        printf("\n测试头删\n");
+        LinkListHeadDel(list);
+        LinkListForeach(list, printBasicData);
+        printf("\n测试尾删\n");
+        LinkListTailDel(list);
+        LinkListForeach(list, printBasicData);
+        int pos = 2;
+        printf("\n测试删除指定位置%d\n", pos);
         LinkListDelAppointPos(list, pos);//指定位置删除
         LinkListForeach(list, printBasicData);
-        printf("\n");
     }
     
     {
-        LinkListTailDel(list);
+        int val = 1;
+        printf("\n测试删除指定元素:%d\n", val);
+        LinkListDelAppointData(list, &val, compare);
         LinkListForeach(list, printBasicData);
-        printf("\n");
-        LinkListHeadDel(list);
-        LinkListForeach(list, printBasicData);
-        printf("\n");
     }
 
-    {
-        int val = 4;
-        int val1 = 7;
-        LinkListAppointPosInsert(list, 1, &val);//按指定位置插入
-        LinkListTailInsert(list, &val1);
-        LinkListForeach(list, printBasicData);
-        printf("\n");
-    }
-
-    {
-        LinkListDestory(list);
-        LinkListForeach(list, printBasicData);
-
-    }
 #else
     stuInfo stu1, stu2, stu3;
     memset(&stu1, 0, sizeof(stu1));
@@ -109,9 +116,6 @@ int main()
 //         printf("info.age:%d\tinfo.sex:%c\n", info->age, info->sex);
 //     }
     #endif
-
-
 #endif
-   
     return 0;
 }
