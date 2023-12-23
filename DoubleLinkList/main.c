@@ -64,7 +64,7 @@ int main()
 
     {
         int pos = 1;
-        printf("\n测试指定位置删除\n");
+        printf("\n测试指定位置%d删除\n", pos);
         doubleLinkListDelAppointPos(list, pos);//指定位置删除
         doubleLinkListForeach(list, printBasicData);
         printf("\n测试尾删\n");
@@ -77,10 +77,11 @@ int main()
     }
 
     {
-        printf("测试链表删除指定数据:\n");
         int val = 1;
+        printf("\n测试链表删除指定数据:%d\n", val);
         doubleLinkListDelAppointData(list, &val, compare);
         doubleLinkListForeach(list, printBasicData);
+        printf("\n");
     }
     
 #else
