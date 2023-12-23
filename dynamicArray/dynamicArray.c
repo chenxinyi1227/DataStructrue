@@ -19,7 +19,7 @@ enum STATUS_CODE
 
 /* 静态函数前置声明 */
 static int expandDynamicCapacity(dynamicArray *pArray);
-static int shrinkDynamicCapactiy(dynamicArray *pArray);
+static int shrinkDynamicCapacity(dynamicArray *pArray);
 
 /* 动态数组的初始化 */
 int dynamicArrayInit(dynamicArray *pArray, int capacity)
@@ -65,7 +65,7 @@ static int expandDynamicCapacity(dynamicArray *pArray)
   
     /* 备份指针 */
     ELEMENTTYPE *tmpPtr = pArray->data;
-    pArray->data = (ELEMENTTYPE *)(sizeof(ELEMENTTYPE) * needExpandCapacity);
+    pArray->data = (ELEMENTTYPE *)malloc(sizeof(ELEMENTTYPE) * needExpandCapacity);
     if(pArray->data == NULL)
     {
         return MALLOC_ERROR;
@@ -111,6 +111,12 @@ int dynamicArrayAppointPosInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE 
         /* 开始扩容 */
         expandDynamicCapacity(pArray);
     }
+    #else
+    if(pArray->len == pArray->capacity)
+    {
+        /* 开始扩容 */
+        expandDynamicCapacity(pArray);
+    }
 #endif  
 
 #if 1
@@ -122,7 +128,7 @@ int dynamicArrayAppointPosInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE 
 #else
     for(int idx = pos; idx < pArray->len; idx++)
     {
-        pArray->data[idx + 1] = pArray->data[idx - 1];
+        pArray->data[idx + 1] = pArray->data[idx];
     }
 #endif
     /* 找到对应的值，写入到数组中 */
@@ -161,14 +167,14 @@ int dynamicArrayDeleteData(dynamicArray *pArray)
 }
 
 /* 缩容 */
-static int shrinkDynamicCapactiy(dynamicArray *pArray)
+static int shrinkDynamicCapacity(dynamicArray *pArray)
 {
     int neddshrinkCapacity = pArray->capacity - (pArray->capacity >> 1); 
 
     /* 备份数据 */
     ELEMENTTYPE *tmpPtr = pArray->data;
-    pArray->data =(ELEMENTTYPE *) malloc(sizeof(ELEMENTTYPE) + neddshrinkCapacity);
-    if(pArray->data ==NULL)
+    pArray->data =(ELEMENTTYPE *) malloc(sizeof(ELEMENTTYPE) * neddshrinkCapacity);
+    if(pArray->data == NULL)
     {
         return MALLOC_ERROR;
     }
@@ -204,7 +210,7 @@ int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
     /* 缩容 */
     if(pArray->len < pArray->capacity >> 1)
     {   
-        shrinkDynamicCapactiy(pArray);
+        shrinkDynamicCapacity(pArray);
     }
 
     /* 数据前移 */
@@ -221,10 +227,22 @@ int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
 /* 动态数组删除指定的元素 */
 int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val,  int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {
-    for(int idx = pArray->len - 1; idx >= 0; idx--)
+    /* todo... */
+#if 0
+    int idx = 0;
+    for(idx; idx < pArray->len; idx++)
     {
         if(val == pArray->data[idx])
-        #if 1
+        {
+            dynamicArrayDeleteAppointPosData(pArray, idx);
+            /* 从头开始 */
+            idx = 0;
+        }
+    }
+#else
+    for(int idx = pArray->len - 1; idx >= 0; idx--)
+    {
+        #if 0
         if(*(int *)val == *(int *)(pArray->data[idx]))
         {
             dynamicArrayDeleteAppointPosData(pArray, idx);
@@ -237,6 +255,7 @@ int dynamicArrayDeleteAppointData(dynamicArray *pArray, ELEMENTTYPE val,  int (*
         }
         #endif
     }
+#endif
     return ON_SUCCESS;
 }
 
@@ -268,61 +287,45 @@ int dynamicArrayGetSize(dynamicArray *pArray, int *pSize)
     {
         *pSize = pArray->len;
     }
-   // return ON_SUCCESS;
     return pArray->len;
 }
 
 /* 获取数组的容量*/
 int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity)
 {
-     if(pArray == NULL)
+     if (pArray == NULL)
     {
         return NULL_PTR;
     }
 
     /* 解引用 */
-    if(pCapacity != NULL)
+    if (pCapacity != NULL)
     {
         *pCapacity = pArray->capacity;
     }
     return ON_SUCCESS;
 }
 
-int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+/* 获取指定位置的元素数据 */
+int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal)
 {  
     /* 判空 */
-    if(pArray == NULL)
+    if (pArray == NULL)
     {
         return NULL_PTR;
     }
     /* 判断位置 */
-    if(pos < 0 || pos >= pArray->len)
+    if (pos < 0 || pos >= pArray->len)
     {
         return INVALID_ACCESS;
     }
-#if 0
-    if(pVal)
+
+    if (pVal)
     {
         *pVal = pArray->data[pos];
     }
     return ON_SUCCESS;
-#endif
-    for(int idx = pArray->len - 1;idx >= 0; idx--)
-    {
-        #if 0
-        if(*(int*)val == *(int *)(pArray->data[idx]))
-        {
-            dynamicArrayDeleteAppointPosData(pArray, idx);
-        }
-        #else
-        int ret = compareFunc(val, pArray->data[idx]);
-        if(ret == 1)
-        {
-            dynamicArrayDeleteAppointPosData(pArray, idx);
-        }
-        #endif
-    return ON_SUCCESS;  
-    }
+
 }
 
 /* 数组排序 */

@@ -48,7 +48,7 @@ int dynamicArrayGetSize(dynamicArray *pArray, int *pSize);
 int dynamicArrayGetCapacity(dynamicArray *pArray, int *pCapacity);
 
 /* 获取指定位置的元素数据 */
-int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE val, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2));
+int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal);
 
 /* 数组排序 */
 int dynamicArrayAppointWaySort(dynamicArray *pArray, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2));

@@ -2,31 +2,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#define BUFFER_SZIE 20
-#define DEFAULT_NUM 5
+#define BUFFER_SIZE 20
+#define DEFAULT_NUM 6
 
 typedef struct stuInfo
 {
     int age;
     char sex;
-}stuInfo;
+} stuInfo; 
 
-void printfArray(dynamicArray array)
-{
-    int size = 0;
-    int capacity = 0;
-    dynamicArrayGetSize(&array, &size);
-    dynamicArrayGetCapacity(&array, &capacity);
-    printf("size:%d\n", size);
-    printf("capacity:%d\n", capacity);
-    int *val = NULL;
-    for(int idx= 0 ; idx < size; idx++)
-    {
-        dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
-        printf("val:%d\t", *val);
-    }
-    printf("\n"); 
-}
 
 int compareData(void *arg1, void *arg2)
 {
@@ -37,152 +21,164 @@ int compareData(void *arg1, void *arg2)
 }
 int main()
 {
-    /*静态数组
-    Q1:不够灵活
-    Q2：可能会浪费空间*/
-
     dynamicArray array;
     /* 初始化 */
-    dynamicArrayInit(&array, BUFFER_SZIE);
+    dynamicArrayInit(&array, BUFFER_SIZE);
 #if 0
     /* 模块化 */
     {
         /* 插入数据 */
-        for(int idx = 0; idx < DEFAULT_NUM; idx++)
+        // dynamicArrayInsertData(&array, 3);
+        for (int idx = 1; idx <= DEFAULT_NUM; idx++)
         {
             dynamicArrayInsertData(&array, idx);
-        } 
+        }
     }
+
     /* 模块化 */
-    { 
+    {
         /* 获取动态数组的大小 */
         int size = 0;
         dynamicArrayGetSize(&array, &size);
         printf("size:%d\n", size);
-        int capacity = 0;
-        dynamicArrayGetCapacity(&array, &capacity);
-        printf("capacity:%d\n", capacity);
-    
+    }
+
+    {
+        /* 获取动态数组的大小 */
+        int size = 0;
+        dynamicArrayGetSize(&array, &size);
         int val = 0;
-        for(int idx = 0; idx < size; idx++)
+        for (int idx = 0; idx < size; idx++)
         {
             dynamicArrayGetAppointPosVal(&array, idx, &val);
             printf("val:%d\t", val);
-        }
+        }    
         printf("\n");
     }
 
     {
+        int size = 0;
+        /* 删除最后位置的元素 */
+        dynamicArrayDeleteData(&array);
+
+        /* 获取动态数组的大小 */
+        dynamicArrayGetSize(&array, &size);
+        printf("size:%d\n", size);
+
+        int val = 0;
+        for (int idx = 0; idx < size; idx++)
+        {
+            dynamicArrayGetAppointPosVal(&array, idx, &val);
+            printf("val:%d\t", val);
+        }    
+        printf("\n");
+    }
+
+    {
+        int size = 0;
         /* 删除指定位置的元素 */
-        int pos = 0;
+        int pos = 1;
         dynamicArrayDeleteAppointPosData(&array, pos);
 
-        /* 获取动态数组大小 */
-        int size = 0;
-        dynamicArrayGetSize(&array, &size);
-        printf("size:%d\n", size);
-        int capacity = 0;
-        dynamicArrayGetCapacity(&array, &capacity);
-        printf("capacity:%d\n", capacity);
-
-        int val = 0;
-        for(int idx = 0; idx < size; idx++)
-        {
-            dynamicArrayGetAppointPosVal(&array, idx, &val);
-            printf("val:%d\t", val);
-        }
-        printf("\n");
-
-       
-    }
-        
-    {
-        /* 更改指定位置的元素 */
-        int pos = 0;
-        ELEMENTTYPE num1 = 66;
-        dynamicArrayModifyAppointPosData(&array, pos, num1);
-
-        /* 获取动态数组大小 */
-        int size = 0;
+        /* 获取动态数组的大小 */
         dynamicArrayGetSize(&array, &size);
         printf("size:%d\n", size);
 
         int val = 0;
-        for(int idx = 0; idx < size; idx++)
+        for (int idx = 0; idx < size; idx++)
         {
             dynamicArrayGetAppointPosVal(&array, idx, &val);
             printf("val:%d\t", val);
-        }
+        }    
         printf("\n");
     }
-
+#elif  1
+    int buffer[DEFAULT_NUM] = {1, 2, 1, 1, 15, 3};
+    for (int idx = 0; idx < DEFAULT_NUM; idx++)
     {
-        /* 获取指定位置的元素 */
-        int pos = 2;
-        int pval = 0;
-        dynamicArrayGetAppointPosVal(&array, pos, &pval);
-        printf("pos:%d\tpval:%d\n", pos, pval);
-    }
-
-
-#elif 0
-    int buffer[BUFFER_SZIE] = {1, 2, 3, 4, 5};
-    for(int idx = 0; idx < DEFAULT_NUM; idx++)
-    {
-        /* 插入数据 */
-        dynamicArrayInsertData(&array, (void *)&buffer[idx]); 
-    }
-
-    {
-        printfArray(array);
+        dynamicArrayInsertData(&array, (void *)&buffer[idx]);
     }
     
+    /* 指定位置插 */
+    int randomNum = 666;
+    dynamicArrayAppointPosInsertData(&array, 1, (void *)&randomNum);
+    
+    int size = 0;
+    dynamicArrayGetSize(&array, &size);
+    printf("size:%d\n", size);
+   
+    int *val = NULL;
+    printf("\n测试按指定位置插\n");
+    for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
     {
-        /* 删除指定位置的数据 */
-        int pos = 1;
-        dynamicArrayDeleteAppointPosData(&array, pos);
-        printfArray(array);
+        dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
+        printf("val:%d\t", *val);
+    }
+    printf("\n测试尾删\n");
+    dynamicArrayDeleteData(&array);
+    dynamicArrayGetSize(&array, &size);
+    printf("size:%d\n", size);
+
+    for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
+    {
+        dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
+        printf("val:%d\t", *val);
+    }
+   
+    dynamicArrayDeleteAppointPosData(&array, 1);
+    printf("\n测试删除指定位置1\n");
+    for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
+    {
+        dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
+        printf("val:%d\t", *val);
     }
 
+    int delnum = 15;
+    printf("\n测试删除指定元素\n");
+    dynamicArrayDeleteAppointData(&array, &delnum, compareData);
+   
+   
+    for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
     {
-        /* 修改指定位置的数据 */
-        int pos = 0;
-        int pval = 88;
-        dynamicArrayModifyAppointPosData(&array, pos, &pval);
-        printfArray(array);
+        dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
+        printf("val:%d\t", *val);
     }
-
+    printf("\n");
     {
-        /* 获取指定位置的元素 */
-        int pos = 1;
-        int *pval = array.data[0];
-        dynamicArrayGetAppointPosVal(&array, pos,(void *) &pval);
-        printf("pos:%d\tpval:%d\n", pos, *pval);
+        int delnum = 1;
+        printf("\n测试删除指定元素\n");
+        dynamicArrayDeleteAppointData(&array, &delnum, compareData);
+    
+    
+        for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
+        {
+            dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
+            printf("val:%d\t", *val);
+        }
+        printf("\n");
     }
-#elif 0 
+#elif 0
     int idx = 0;
-    for(idx; idx < DEFAULT_NUM; idx++)
+    for (idx; idx < DEFAULT_NUM; idx++)
     {
         dynamicArrayInsertData(&array, (void *)&idx);
     }
-
+    
     int size = 0;
     dynamicArrayGetSize(&array, &size);
-    printf("size:%d\n",size);
+    printf("size:%d\n", size);
 
     int *val = NULL;
-    for(int idx= 0 ; idx < DEFAULT_NUM; idx++)
+    for (int idx = 0; idx < DEFAULT_NUM; idx++)
     {
         dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
         printf("val:%d\n", *val);
     }
-
 #else
     stuInfo stu1, stu2, stu3;
     memset(&stu1, 0, sizeof(stu1));
     memset(&stu2, 0, sizeof(stu2));
     memset(&stu3, 0, sizeof(stu3));
-    
 
     stu1.age = 10;
     stu1.sex = 'm';
@@ -191,29 +187,26 @@ int main()
     stu2.sex = 'f';
 
     stu3.age = 30;
-    stu3.sex ='m';
-
-    // dynamicArrayInsertData(&array, (void *)(&stu1));
-    // dynamicArrayInsertData(&array, (void *)(&stu2));
-    // dynamicArrayInsertData(&array, (void *)(&stu3));
+    stu3.sex = 'm';
 
     stuInfo buffer[DEFAULT_NUM] = {stu1, stu2, stu3};
-    for(int idx = 0; idx < DEFAULT_NUM; idx++)
+    for (int idx = 0; idx < DEFAULT_NUM; idx++)
     {
         dynamicArrayInsertData(&array, (void *)&buffer[idx]);
     }
- 
+
     int size = 0;
     dynamicArrayGetSize(&array, &size);
     printf("size:%d\n", size);
 
-    stuInfo *info = NULL;  //二级指针 
-   // memset(&info, 0, sizeof(info));
-    for(int idx = 0; idx < DEFAULT_NUM; idx++)
+    stuInfo *info = NULL;
+    for (int idx = 0; idx < DEFAULT_NUM; idx++)
     {
         dynamicArrayGetAppointPosVal(&array, idx, (void *)&info);
         printf("info.age:%d\tinfo.sex:%c\n", info->age, info->sex);
     }
+
 #endif
+
     return 0;
 }
