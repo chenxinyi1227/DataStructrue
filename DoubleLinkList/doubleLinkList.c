@@ -337,7 +337,6 @@ int doubleLinkListForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTTYPE))
 /* 链表逆序遍历接口 */
 int doubleLinkListReverseForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTTYPE))
 {
-
     int ret = 0;
     if(pList == NULL)
     {
@@ -365,4 +364,59 @@ int doubleLinkListReverseForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTT
     } 
     #endif
     return ret;
+}
+
+/* 获取链表头位置的值 */
+int doubleLinkListGetHeadVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
+{
+    #if 0
+    int ret = 0;
+    if(pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    if(pVal)
+    {
+        *pVal = pList->head->next->data;
+    }
+    return ret = 0;
+    #else
+    return doubleLinkListGetAppointPosVal(pList, 1, pVal);
+    #endif
+} 
+/* 获取链表尾位置的值 */
+int doubleLinkListGetTailVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
+{
+    return doubleLinkListGetAppointPosVal(pList, pList->len, pVal);
+}
+
+/* 获取链表指定位置的值 */
+int doubleLinkListGetAppointPosVal(doubleLinkList *pList, int pos, ELEMENTTYPE *pVal)
+{
+    int ret = 0;
+    if(pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    if(pos <= 0 || pos > pList->len)
+    {
+        return INVALID_ACCESS;
+    }
+    doubleLinkNode * travelNode = pList->head;
+    
+    if(pos == pList->len)
+    { 
+        *pVal = pList->tail->data;       
+    }
+    else
+    {   
+        while(pos)
+        {
+            travelNode = travelNode->next;
+            pos--;
+        }
+        *pVal = travelNode->data;
+    }
+    return ON_SUCCESS;
+ 
 }
