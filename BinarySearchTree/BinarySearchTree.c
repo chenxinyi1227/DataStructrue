@@ -14,8 +14,12 @@ enum STATUS_CODE
 };
 /* 静态函数前置声明 */
 static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
-static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode);
 
+static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode);
+static BSTreeNode * baseAppointValGetBSTreeNode(binarySearchTree *pBstree,ELEMENTTYPE val,  int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+{
+
+}
 /* 二叉搜索树的初始化 */
 int binarysearchTreeInit(binarySearchTree **pBstree)
 {
@@ -76,6 +80,7 @@ static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode)/
     newBstNode->parent = parentNode;
     return newBstNode;
 }
+
 /* 二叉搜索树的插入 */
 int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val, int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {
@@ -127,7 +132,6 @@ int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val, int(*cpmp
         newBstNode->parent = NULL;
     }
 #endif
-
     BSTreeNode * newBstNode = createBSTreeNewNode(val, parentNode);
     /* 挂在左子树 */
     if(cmp < 0)
@@ -144,26 +148,41 @@ int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val, int(*cpmp
     pBstree->size++;
     return ret;
 }
+/* 根据指定的值获取二叉搜索树的节点 */
+static BSTreeNode * baseAppointValGetBSTreeNode(binarySearchTree *pBstree,ELEMENTTYPE val,  int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+{
+    BSTreeNode *travelNode = pBstree->root;
+    while(travelNode != NULL)
+    {
 
-/* 二叉树先序遍历 */
-int binarySearchTreePreOrderTraverse(binarySearchTree * root, void(*visit)(int))
+    }
+}
+
+/* 二叉搜索树是否包含指定元素 */
+int binarySearchTreeContainAppointVal(binarySearchTree *pBstree, ELEMENTTYPE val)
+{
+    
+}
+
+/* 二叉树前序遍历 */
+int binarySearchTreePreOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
 {
 
 }
 
 /* 二叉树中序遍历 */
-int binarySearchTreeMidOrderTraverse(binarySearchTree * root, void(*visit)(int))
+int binarySearchTreeMidOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
 {
 
 }
 
 /* 二叉树后序遍历 */
-int binarySearchTreePosOrderTraverse(binarySearchTree * root, void(*visit)(int))
+int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
 {
 
 }
 /* 二叉树层序遍历 */
-int binarySearchTreeLevelOrderTraverse(binarySearchTree * root, void(*visit)(int))
+int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
 {
-    
+
 }
