@@ -10,6 +10,7 @@ enum STATUS_CODE
     NULL_PTR,
     MALLOC_ERROR,
     INVALID_ACCESS,    //非法访问
+    ON_SUCCESS
 };
 
 /* 二叉搜索树的初始化 */
@@ -47,7 +48,47 @@ int binarysearchTreeInit(binarySearchTree **pBstree)
 }
 
 /* 二叉搜索树的插入 */
-int binarysearchTreeInsert(binarySearchTree **pBstree, ELEMENTTYPE val)
+int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val)
 {
+    int ret = 0;
+    if(pBstree->size == 0)//空树
+    {
+        pBstree->size++;//更新树的结点
+        pBstree->root->data = val;
+        return ret;
+    }
+    /* travelNode 指向根结点 */
+    BSTreeNode * travelNode = pBstree->root;
+    BSTreeNode * parentNode = pBstree->root;
 
+    int cmp = 0;/* 确定符号：到底放在在左边还是右边 */
+    while(travelNode != NULL)
+    {
+        parentNode = travelNode;/* 标记父结点 */
+        cmp = val - travelNode->data;
+
+        if(cmp < 0) /* 插入元素 < 遍历到的节点  左子树*/
+        {
+            travelNode = travelNode->left;
+        }
+        else if(cmp > 0)/* 插入元素 > 遍历到的节点 右子树 */ 
+        {
+            travelNode = travelNode->right;
+        }
+        else    /* 插入元素 = 遍历到的节点 右子树 */ 
+        {
+            
+            return ret;
+        }
+    }
+
+    if(cmp < 0)
+    {
+        parentNode->left = (val的结点);
+    }
+    else
+    {
+        parentNode->right = (val的结点);
+    }
+    return ON_SUCCESS;
 }
