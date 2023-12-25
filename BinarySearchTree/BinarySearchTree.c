@@ -47,6 +47,11 @@ int binarysearchTreeInit(binarySearchTree **pBstree)
     *pBstree = bstree;
 }
 
+static cpmpare(ELEMENTTYPE val1, ELEMENTTYPE val2)
+{
+    return val1 - val2;
+}
+
 /* 二叉搜索树的插入 */
 int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val)
 {
@@ -65,7 +70,7 @@ int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val)
     while(travelNode != NULL)
     {
         parentNode = travelNode;/* 标记父结点 */
-        cmp = val - travelNode->data;
+        cmp = cpmpare(val, travelNode->data);
 
         if(cmp < 0) /* 插入元素 < 遍历到的节点  左子树*/
         {
@@ -81,14 +86,32 @@ int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val)
             return ret;
         }
     }
-
+    /* 分配根结点 */
+    BSTreeNode * newBstNode = (BSTreeNode *)malloc(sizeof(BSTreeNode));
+    if(newBstNode = NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    memset(newBstNode, 0, sizeof(BSTreeNode));
+    /* 初始化根结点 */
+    {
+        newBstNode->data = 0;
+        newBstNode->left = NULL;
+        newBstNode->right = NULL;
+        newBstNode->parent = NULL;
+    }
+    /* 挂在左子树 */
     if(cmp < 0)
     {
-        parentNode->left = (val的结点);
+        parentNode->left = newBstNode;
     }
-    else
+    else/* 挂在右子树 */
     {
-        parentNode->right = (val的结点);
+        parentNode->right = newBstNode;
     }
-    return ON_SUCCESS;
+    /* 新节点的parent */
+    newBstNode->parent = parentNode;
+
+    pBstree->size++;
+    return ret;
 }
