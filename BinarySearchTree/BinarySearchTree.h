@@ -25,7 +25,7 @@ typedef struct binarySearchTree
 void PrintNode(int node);
 
 /* 二叉搜索树的初始化 */
-int binarysearchTreeInit(binarySearchTree **pBstree, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2));
+int binarysearchTreeInit(binarySearchTree **pBstree);
 
 /* 二叉搜索树的插入 */
 int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val);
@@ -34,13 +34,13 @@ int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val);
 int binarySearchTreeContainAppointVal(binarySearchTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉树先序遍历 */
-int binarySearchTreePreOrderTraverse(binarySearchTree *pBstree, void(*visit)(int));
+int binarySearchTreePreOrderTraverse(binarySearchTree *pBstree);
 
 /* 二叉树中序遍历 */
-int binarySearchTreeMidOrderTraverse(binarySearchTree *pBstree, void(*visit)(int));
+int binarySearchTreeMidOrderTraverse(binarySearchTree *pBstree);
 
 /* 二叉树后序遍历 */
-int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree, void(*visit)(int));
+int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree);
 /* 二叉树层序遍历 */
-int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree, void(*visit)(int));
+int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree);
 #endif

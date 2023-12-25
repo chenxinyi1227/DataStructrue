@@ -1,4 +1,6 @@
 #include "BinarySearchTree.h"
+#include "doubleLinkListQueue.h"
+#include "common.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,7 +21,7 @@ static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode);
 static BSTreeNode * baseAppointValGetBSTreeNode(binarySearchTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉搜索树的初始化 */
-int binarysearchTreeInit(binarySearchTree **pBstree, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+int binarysearchTreeInit(binarySearchTree **pBstree)
 {
     int ret = 0;
     binarySearchTree * bstree = (binarySearchTree *)malloc(sizeof(binarySearchTree));
@@ -174,28 +176,61 @@ static BSTreeNode * baseAppointValGetBSTreeNode(binarySearchTree *pBstree,ELEMEN
 /* 二叉搜索树是否包含指定元素 */
 int binarySearchTreeContainAppointVal(binarySearchTree *pBstree, ELEMENTTYPE val)
 {
-    baseAppointValGetBSTreeNode(pBstree, val);
+    return baseAppointValGetBSTreeNode(pBstree, val) == NULL ? 0 : 1;
 }
 
 /* 二叉树前序遍历 */
-int binarySearchTreePreOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
+int binarySearchTreePreOrderTraverse(binarySearchTree *pBstree)
 {
+    doubleLinkListQueue *queue;
+    doubleLinkListQueueInit(&queue);
+    doubleLinkListQueuePush(pBstree->root, queue->head->next->data);
+    while(!doubleLinkListQueueIsEmpty(queue))
+    {
+        
+    }
+
+
 
 }
 
 /* 二叉树中序遍历 */
-int binarySearchTreeMidOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
+int binarySearchTreeMidOrderTraverse(binarySearchTree *pBstree)
 {
 
 }
 
 /* 二叉树后序遍历 */
-int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
+int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree)
 {
 
 }
 /* 二叉树层序遍历 */
-int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree, void(*visit)(int))
+int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree)
 {
+    int ret = 0;
+    doubleLinkListQueue *pQueue = NULL;
+    doubleLinkListQueueInit(&pQueue);
 
+    doubleLinkListQueuePush(pQueue,pBstree->root);//根结点入队
+
+    /* 判断队列是否为空 */
+    BSTreeNode * nodeVal = NULL;
+    while(!doubleLinkListQueueIsEmpty(pQueue))
+    {
+        doubleLinkListQueueTop(pQueue, (void **)&nodeVal);
+        printf("data:%d\n", nodeVal->data);
+        doubleLinkListQueuePop(pQueue);
+
+        if(nodeVal->left != NULL)//左子树入队
+        {
+            doubleLinkListQueuePush(pQueue, nodeVal->data);
+        }
+
+        if(nodeVal->right != NULL)//右子树入队
+        {
+            doubleLinkListQueuePush(pQueue, nodeVal->right);
+        }
+    }
+    return ret;
 }
