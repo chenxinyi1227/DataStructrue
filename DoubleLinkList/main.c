@@ -66,30 +66,45 @@ int main()
 #if 1
     {
         printf("\n测试按指定位置插入\n");
-        int val = 11;
+        int val = 10;
         doubleLinkListAppointPosInsert(list, 2, &val);//按指定位置插入
         doubleLinkListForeach(list, printBasicData);
-        // printf("\n测试尾插\n");
-        // int val1 = 7;
-        // doubleLinkListTailInsert(list, &val1);//尾插
-        // doubleLinkListForeach(list, printBasicData);
-        printf("\n逆序遍历\n");
-        doubleLinkListReverseForeach(list, printBasicData);
+          printf("\n测试按指定位置插入\n");
+        int val1 = 11;
+          int size = 0;
+        doubleLinkListGetLength(list,&size);//获取链表的长度
+        printf("size:%d\n", size);
+        doubleLinkListAppointPosInsert(list, 4, &val1);//按指定位置插入
+       
+        doubleLinkListForeach(list, printBasicData);
+        printf("\n测试尾插\n");
+        int val2 = 7;
+        doubleLinkListTailInsert(list, &val2);//尾插
+        // int val11 = 0;
+        // doubleLinkListHeadInsert(list, &val11);//尾插
+        doubleLinkListForeach(list, printBasicData);
+
+        // printf("\n逆序遍历\n"); 
+        // doubleLinkListReverseForeach(list, printBasicData);
     }
 #endif 
 
-#if 1
+#if 0//头插尾插指针有问题
     {
         printf("\n测试查找指定位置的元素\n");
         int *pVal = NULL;
-        int pos =4;
-        doubleLinkListGetAppointPosVal(list, pos, (void **)&pVal);
-        printf("pVal:%d\n", *pVal);
+        doubleLinkListGetAppointPosVal(list, 1, (void **)&pVal);
+        printf("pVal1:%d\n", *pVal);
+        int *pVal4 = NULL;
+        printf("list->tail->prev->data:%d\n", *(int*)list->tail->prev->data);
+        doubleLinkListGetAppointPosVal(list, 2, (void **)&pVal4);
+        printf("list->tail->data:%d\n", *(int*)list->tail->data);
+        printf("pVal4:%d\n", *pVal4);
     }
 #endif
 #if 0
     {
-        int pos = 1;
+        int pos = 2;
         printf("\n测试指定位置%d删除\n", pos);
         doubleLinkListDelAppointPos(list, pos);//指定位置删除
         doubleLinkListForeach(list, printBasicData);

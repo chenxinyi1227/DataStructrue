@@ -50,14 +50,14 @@ int doubleLinkListInit(doubleLinkList **pList)
 /* 链表头插 */
 int doubleLinkListHeadInsert(doubleLinkList *pList, ELEMENTTYPE val)
 {
-    return doubleLinkListAppointPosInsert(pList, 0, val);
+    return doubleLinkListAppointPosInsert(pList, 1, val);
 }
 
 /* 链表尾插 */
 int doubleLinkListTailInsert(doubleLinkList *pList, ELEMENTTYPE val)
 {
     /* todo... */
-    return doubleLinkListAppointPosInsert(pList, pList->len, val);
+    return doubleLinkListAppointPosInsert(pList, pList->len + 1, val);
 }
 
 /* 新建新节点封装成函数 */
@@ -82,6 +82,7 @@ static doubleLinkNode *createdoubleLinkList(ELEMENTTYPE val)
 /* 链表指定位置插入 */
 int doubleLinkListAppointPosInsert(doubleLinkList *pList, int pos, ELEMENTTYPE val)
 {
+    pos -= 1;//位置从1开始而不是从0开始
     int ret = 0;
     if(pList == NULL)
     {
@@ -129,7 +130,7 @@ int doubleLinkListAppointPosInsert(doubleLinkList *pList, int pos, ELEMENTTYPE v
         flag = 1;
     }
     else
-    {
+    { 
         while(pos)
         {
             travelNode = travelNode->next;
@@ -393,6 +394,7 @@ int doubleLinkListGetTailVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
 /* 获取链表指定位置的值 */
 int doubleLinkListGetAppointPosVal(doubleLinkList *pList, int pos, ELEMENTTYPE *pVal)
 {
+#if 1
     int ret = 0;
     if(pList == NULL)
     {
@@ -403,10 +405,10 @@ int doubleLinkListGetAppointPosVal(doubleLinkList *pList, int pos, ELEMENTTYPE *
         return INVALID_ACCESS;
     }
     doubleLinkNode * travelNode = pList->head;
-    
+
     if(pos == pList->len)
     { 
-        *pVal = pList->tail->data;       
+        *pVal = pList->tail->data;  
     }
     else
     {   
@@ -418,5 +420,30 @@ int doubleLinkListGetAppointPosVal(doubleLinkList *pList, int pos, ELEMENTTYPE *
         *pVal = travelNode->data;
     }
     return ON_SUCCESS;
- 
+ #else
+     int ret = 0;
+    if(pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    if(pos < 0 || pos > pList->len)
+    {
+        return INVALID_ACCESS;
+    }
+
+    doubleLinkNode * travelNode = pList->head;
+
+    while(pos)
+    {
+        travelNode = travelNode->next;
+        pos--;
+    }
+    *pVal = travelNode->data;
+    
+    if(pVal)
+    {
+        *pVal = travelNode->data;
+    }
+#endif
+    return ON_SUCCESS;
 }
