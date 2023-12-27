@@ -471,6 +471,8 @@ static int binarySearchTreeDeleteNode(binarySearchTree *pBstree, BSTreeNode *nod
     /* 假设nod结点是度为1，他的child 要没事是左要么是右 */
     /* 假设node的结点是度为0的 */
     BSTreeNode * child =node->left != NULL ? node->left : node->right;
+
+    BSTreeNode * delNode = NULL;
     if(child)
     {
         /* 度为1 */
@@ -479,10 +481,7 @@ static int binarySearchTreeDeleteNode(binarySearchTree *pBstree, BSTreeNode *nod
         {
             /* 它是根结点 */
             pBstree->root = child;
-            {
-                free(node);
-                node = NULL;
-            }
+            delNode = node;
         }
         else
         {
@@ -494,12 +493,15 @@ static int binarySearchTreeDeleteNode(binarySearchTree *pBstree, BSTreeNode *nod
             {
                 node->parent->right = child;
             }
-            /*  */
+            /* 释放节点 */
+            delNode = node;
+            #if 0
             if(node)
             {
                 free(node);
                 node= NULL;
             }
+            #endif
         }   
     }
     else
@@ -507,17 +509,18 @@ static int binarySearchTreeDeleteNode(binarySearchTree *pBstree, BSTreeNode *nod
         /* 度为0 */
         if(node->parent == NULL)
         {
+            delNode = node;
+            #if 0
             if(node)
             {
                 free(node);
                 node = NULL;
             } 
+            #endif
         }
         else
         {
             if(node == node->parent->left)
-            // free(node);
-            // node = NULL;
             {
                 node->parent->left = NULL;
             }
@@ -525,13 +528,22 @@ static int binarySearchTreeDeleteNode(binarySearchTree *pBstree, BSTreeNode *nod
             {
                 node->parent->right = NULL;
             }
+            delNode = node;
+            #if 0
             if(node)
             {
                 free(node);
                 node = NULL;
             }  
+            #endif
         }   
     }
+    if(delNode)
+    {
+        free(delNode);
+        delNode = NULL;
+    }
+    return ret;
 }
 
 /* 二叉树的删除 */
