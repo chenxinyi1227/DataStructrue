@@ -27,6 +27,12 @@ static int binarySearchTreeNodeHasTwochilds(BSTreeNode *node);
 static int binarySearchTreeNodeHasOnechilds(BSTreeNode *node);
 /* 判断二叉搜索树度为0 */
 static int binarySearchTreeNodeIsLeft(BSTreeNode *node);
+/* 前序遍历 */
+static int preOrderTraverse(binarySearchTree *pAvltree, BSTreeNode *node);
+/* 中序遍历 */
+static int midOrderTraverse(binarySearchTree *pAvltree, BSTreeNode *node);
+/* 后序遍历*/
+static int posOrderTree(binarySearchTree *pAvltree, BSTreeNode *node);
 /* 获取当前结点的的前驱结点 */
 static BSTreeNode *bstreeNodePreDecessor(BSTreeNode *node);
 /* 获取当前结点的的后驱结点 */
