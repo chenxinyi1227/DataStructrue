@@ -157,24 +157,24 @@ static AVLTreeNode *bstreeNodeSucDecessor(AVLTreeNode *node)
 /* 创建结点 */
 static AVLTreeNode *createAVLTreeNewNode(ELEMENTTYPE val, AVLTreeNode *parentNode)//在上一个父节点后添加节点
 {
-    AVLTreeNode *newAvlNode = (AVLTreeNode *)malloc(sizeof(AVLTreeNode));
-    if(newAvlNode == NULL)
+    AVLTreeNode *newAVLNode = (AVLTreeNode *)malloc(sizeof(AVLTreeNode));
+    if(newAVLNode == NULL)
     {
         return NULL;//not malloc error!
     }
-    memset(newAvlNode, 0, sizeof(AVLTreeNode));
+    memset(newAVLNode, 0, sizeof(AVLTreeNode));
 
     /* 初始化根结点 */
     {
-        newAvlNode->data = 0;
-        newAvlNode->height = 1;//结点的高度为1
-        newAvlNode->left = NULL;
-        newAvlNode->right = NULL;
-        newAvlNode->parent = NULL;
+        newAVLNode->data = 0;
+        newAVLNode->height = 1;//结点的高度为1
+        newAVLNode->left = NULL;
+        newAVLNode->right = NULL;
+        newAVLNode->parent = NULL;
     }
-    newAvlNode->data = val;
-    newAvlNode->parent = parentNode;
-    return newAvlNode;
+    newAVLNode->data = val;
+    newAVLNode->parent = parentNode;
+    return newAVLNode;
 }
 
 /* 添加结点之后的操作 */
@@ -222,35 +222,36 @@ int balanceBinarySearchTreeInsert(balanceBinarySearchTree *pAvltree, ELEMENTTYPE
 
  #if 0
     /* 分配根结点 */
-    AVLTreeNode * newAvlNode = (AVLTreeNode *)malloc(sizeof(AVLTreeNode));
-    if(newAvlNode = NULL)
+    AVLTreeNode * newAVLNode = (AVLTreeNode *)malloc(sizeof(AVLTreeNode));
+    if(newAVLNode = NULL)
     {
         return MALLOC_ERROR;
     }
-    memset(newAvlNode, 0, sizeof(AVLTreeNode));
+    memset(newAVLNode, 0, sizeof(AVLTreeNode));
     /* 初始化根结点 */
     {
-        newAvlNode->data = 0;
-        newAvlNode->left = NULL;
-        newAvlNode->right = NULL;
-        newAvlNode->parent = NULL;
+        newAVLNode->data = 0;
+        newAVLNode->left = NULL;
+        newAVLNode->right = NULL;
+        newAVLNode->parent = NULL;
     }
 #endif
-    AVLTreeNode * newAvlNode = createAVLTreeNewNode(val, parentNode);
+    AVLTreeNode * newAVLNode = createAVLTreeNewNode(val, parentNode);
     /* 挂在左子树 */
     if(cmp < 0)
     {
-        parentNode->left = newAvlNode;
+        parentNode->left = newAVLNode;
     }
     else/* 挂在右子树 */
     {
-        parentNode->right = newAvlNode;
+        parentNode->right = newAVLNode;
     }
-    /* 添加 */
+    /* 添加之后的调整 */
+    insertNodeAfter(newAVLNode);
     
 #if 0
     /* 新节点的parent指针赋值 */
-    newAvlNode->parent = parentNode;
+    newAVLNode->parent = parentNode;
 #endif
     pAvltree->size++;
     return ret;
