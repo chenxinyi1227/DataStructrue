@@ -28,7 +28,7 @@ int doubleLinkListQueueRear(doubleLinkListQueue *pQueue, ELEMENTTYPE *val)
 /* 队列出列 */
 int doubleLinkListQueuePop(doubleLinkListQueue *pQueue)
 {
-    return doubleLinkListTailDel(pQueue);
+    return doubleLinkListHeadDel(pQueue);
 }
 
 /* 队列大小 */

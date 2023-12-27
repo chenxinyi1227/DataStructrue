@@ -72,6 +72,7 @@ static doubleLinkNode *createdoubleLinkList(ELEMENTTYPE val)
     }
     memset(newNode, 0 , sizeof(doubleLinkNode *) * 1);//清除脏数据
 #if 1
+    /* 维护新节点 */
     newNode->data = 0;
     newNode->next = NULL;
     newNode->prev = NULL;//新建的prev节点
@@ -136,7 +137,7 @@ int doubleLinkListAppointPosInsert(doubleLinkList *pList, int pos, ELEMENTTYPE v
             travelNode = travelNode->next;
             pos--;
         }
-        travelNode->next->prev = newNode;  //3:空链表 / 尾插
+        travelNode->next->prev = newNode;  //没有节点的情况下
     }
     newNode->next = travelNode->next;  //1
     newNode->prev = travelNode;        //2
@@ -292,13 +293,20 @@ int doubleLinkListDestory(doubleLinkList *pList)
     {
         doubleLinkListHeadDel(pList);
     }
-
+    /* 释放头节点 */
     if(pList->head != NULL)
     {
         free(pList->head);
         /* 指针置为NULL */
         pList->head = NULL;
         pList->tail = NULL;
+    }
+
+    /* 释放链表  */
+    if (pList)
+    {
+        free(pList);
+        pList = NULL;
     }
     return ret;
 }
@@ -338,7 +346,6 @@ int doubleLinkListForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTTYPE))
 /* 链表逆序遍历接口 */
 int doubleLinkListReverseForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTTYPE))
 {
-
     int ret = 0;
     if(pList == NULL)
     {
@@ -366,14 +373,13 @@ int doubleLinkListReverseForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTT
         travelNode = travelNode->prev;
     } 
     #endif
-
     return ret;
 }
 
 /* 获取链表头位置的值 */
 int doubleLinkListGetHeadVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
 {
-    #if 1
+    #if 0
     int ret = 0;
     if(pList == NULL)
     {
@@ -385,7 +391,7 @@ int doubleLinkListGetHeadVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
     }
     return ret = 0;
     #else
-    return doubleLinkListGetAppointPosVal(pList, 0, pVal);
+    return doubleLinkListGetAppointPosVal(pList, 1, pVal);
     #endif
 } 
 
@@ -403,13 +409,13 @@ int doubleLinkListGetAppointPosVal(doubleLinkList *pList,int pos, ELEMENTTYPE *p
     {
         return NULL_PTR;
     }
-    if(pos < 0 || pos > pList->len)
+    if(pos <= 0 || pos > pList->len)
     {
         return INVALID_ACCESS;
     }
 
     doubleLinkNode * travelNode = pList->head;
-
+#if 0
     if(pos == pList->len)
     { 
         *pVal = pList->tail->data;       
@@ -423,6 +429,15 @@ int doubleLinkListGetAppointPosVal(doubleLinkList *pList,int pos, ELEMENTTYPE *p
         }
         *pVal = travelNode->data;
     }
+#endif
+    while(pos)
+    {
+        travelNode = travelNode->next;
+        pos--;
+    }
+    if(pVal)
+    {
+        *pVal = travelNode->data;
+    }
     return ON_SUCCESS;
- 
 }
