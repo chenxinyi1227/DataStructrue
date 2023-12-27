@@ -46,6 +46,9 @@ int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree);
 /* 二叉树层序遍历 */
 int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree);
 
+/* 获取二叉搜索树的节点个数 */
+int binarySearchTreeGetNodeSize(binarySearchTree *pBstree, int *pSize);
+
 /* 获取二叉树的高度:需要记录每一层的结点树->每一层的节点数技术完成，就是树的高度加1 */
 int binarySearchTreeGetHeight(binarySearchTree *pBstree, int *pHeight);
 
