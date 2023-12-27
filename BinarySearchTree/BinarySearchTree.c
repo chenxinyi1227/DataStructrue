@@ -312,10 +312,17 @@ int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree)
     return ret;
 }
 
-/* 二叉树层序遍历 */
+/* 二叉树层序遍历*/
 int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree)
 {
     int ret = 0;
+    /*算法: 使用队列 
+        1. 将根结点入队
+        2. 循环执行以下操作, 直到队列为空
+            2.1 将队头结点(A)出队,并访问
+            2.2 将(A)的左子节点入队
+            2.3 将(A)的右子节点入队
+    */
     doubleLinkListQueue *pQueue = NULL;
     doubleLinkListQueueInit(&pQueue);
 
@@ -323,16 +330,21 @@ int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree)
 
     /* 判断队列是否为空 */
     BSTreeNode * nodeVal = NULL;
+    /* 当队列不为空 */
     while(!doubleLinkListQueueIsEmpty(pQueue))
     {
         doubleLinkListQueueTop(pQueue, (void **)&nodeVal);
-
+        #if 0
         printf("data:%d\n", nodeVal->data);
+        #else
+        printFunc(nodeVal->data);
+        #endif
         doubleLinkListQueuePop(pQueue);
 
-        if(nodeVal->left != NULL)//左子树入队
+        /* 当左子树存在时，将左子树添加到队列中 */
+        if(nodeVal->left != NULL)
         {
-            doubleLinkListQueuePush(pQueue, nodeVal->data);
+            doubleLinkListQueuePush(pQueue, nodeVal->left);
         }
 
         if(nodeVal->right != NULL)//右子树入队
@@ -340,6 +352,7 @@ int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree)
             doubleLinkListQueuePush(pQueue, nodeVal->right);
         }
     }
+    doubleLinkListQueue(pQueue);
     return ret;
 }
 
