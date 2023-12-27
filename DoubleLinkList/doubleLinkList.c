@@ -50,14 +50,14 @@ int doubleLinkListInit(doubleLinkList **pList)
 /* 链表头插 */
 int doubleLinkListHeadInsert(doubleLinkList *pList, ELEMENTTYPE val)
 {
-    return doubleLinkListAppointPosInsert(pList, 1, val);
+    return doubleLinkListAppointPosInsert(pList, 0, val);
 }
 
 /* 链表尾插 */
 int doubleLinkListTailInsert(doubleLinkList *pList, ELEMENTTYPE val)
 {
     /* todo... */
-    return doubleLinkListAppointPosInsert(pList, pList->len + 1, val);
+    return doubleLinkListAppointPosInsert(pList, pList->len, val);
 }
 
 /* 新建新节点封装成函数 */
@@ -82,7 +82,7 @@ static doubleLinkNode *createdoubleLinkList(ELEMENTTYPE val)
 /* 链表指定位置插入 */
 int doubleLinkListAppointPosInsert(doubleLinkList *pList, int pos, ELEMENTTYPE val)
 {
-    pos -= 1;//位置从1开始而不是从0开始
+    // pos -= 1;//位置从1开始而不是从0开始
     int ret = 0;
     if(pList == NULL)
     {
