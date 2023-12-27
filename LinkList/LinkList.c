@@ -33,7 +33,7 @@ int LinkListInit(LinkList **pList)
     {
         return MALLOC_ERROR;
     }
-    memset(list->head, 0, sizeof(LinkNode *));  //清空脏数据
+    memset(list->head, 0, sizeof(LinkNode));  //清空脏数据
     list->head->data = 0;
     list->head->next = NULL;
     list->tail = list->head;  //尾指针初始化时,尾指针 = 头指针
@@ -136,7 +136,7 @@ int LinkListDelAppointPos(LinkList *pList, int pos)
         return NULL_PTR;
     }
     /* todo...          */
-    if(pos <= 0 || pos > pList->len)
+    if(pos <= 0 || pos > pList->len)//pos = 0 空指针进不了以下循环
     {
         return INVALID_ACCESS;
     }
@@ -216,7 +216,7 @@ static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, i
 }
 
 /* 链表删除指定数据 */ 
-int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val, int (*compareFunc)(ELEMENTYPE,ELEMENTYPE))//??
+int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val, int (*compareFunc)(ELEMENTYPE,ELEMENTYPE))
 {
     int ret = 0;
     int pos = 0;        //元素在链表中的位置
