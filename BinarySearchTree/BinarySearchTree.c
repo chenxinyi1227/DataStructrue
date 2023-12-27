@@ -19,7 +19,7 @@ static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
 static int printFunc(BSTreeNode *parentNode);
 static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode);
 static BSTreeNode * baseAppointValGetBSTreeNode(binarySearchTree *pBstree, ELEMENTTYPE val);
-
+static int binarySearchTreeDeleteNode(binarySearchTree *pBstree, BSTreeNode *node);
 /* 判断二叉搜索树度为2 */
 static int binarySearchTreeNodeHasTwochilds(BSTreeNode *node);
 /* 判断二叉搜索树度为1 */
@@ -423,10 +423,146 @@ int binarySearchTreeGetHeight(binarySearchTree *pBstree, int *pHeight)
     return ret;
 }
 
+/* 删除节点 */
+static int binarySearchTreeDeleteNode(binarySearchTree *pBstree, BSTreeNode *node)
+{
+/* 算法
+ * 删除度为0的结点: 要么是叶子结点,要么是只有唯一一个结点的树。这种情况下直接释放free结点即可
+ * 删除度为1的结点: 
+ *      当要删除的结点有父结点的时候,修改要删除结点的父结点和子结点的指向关系,再释放free结点.
+ *      当要删除的结点没有父结点的时候, 直接改变根结点的指向即可。
+ * 删除度为2的结点:
+ *      找到前驱结点和后继结点,前驱结点或者后继结点的值替换掉当前要删除结点的值
+ *      再删除前驱结点或者后继结点。(度为2结点的前驱结点或者后继结点的度一定是1或者0)
+ *      再按照上面删除度为0还是度为1的逻辑操作即可.
+ * */ 
+    int ret = 0;
+    if(node == NULL)
+    {
+        return NULL_PTR;
+    }
+
+    if(binarySearchTreeNodeHasTwochilds(node))
+    {
+        BSTreeNode * preNode = bstreeNodePreDecessor(node);//找到前驱结点
+        node->data = preNode->data;
+        node = preNode;//node是要删除的结点
+    }
+    /* 程序执行到这里，要么是度为1要么是度为0 */
+    #if 0
+    if(binarySearchTreeNodeHasOnechilds(node))
+    {
+        BSTreeNode * preNode = bstreeNodePreDecessor(node);
+        node->data = preNode->data;
+        node = preNode;
+    }
+    if(binarySearchTreeNodeIsLeft(node))
+    {
+        if(node->data == node->parent->left)
+        {
+            node->parent->left = NULL;
+        }
+        else
+        {
+            node->parent->right = NULL;
+        }   
+    }
+#endif
+    /* 假设nod结点是度为1，他的child 要没事是左要么是右 */
+    /* 假设node的结点是度为0的 */
+    BSTreeNode * child =node->left != NULL ? node->left : node->right;
+    if(child)
+    {
+        /* 度为1 */
+        child->parent = node->parent;
+        if(node->parent == NULL)
+        {
+            /* 它是根结点 */
+            pBstree->root = child;
+            {
+                free(node);
+                node = NULL;
+            }
+        }
+        else
+        {
+            if(node == node->parent->left)
+            {
+                node->parent->left = child;
+            }
+            else if(node == node->parent->right)
+            {
+                node->parent->right = child;
+            }
+            /*  */
+            if(node)
+            {
+                free(node);
+                node= NULL;
+            }
+        }   
+    }
+    else
+    {
+        /* 度为0 */
+        if(node->parent == NULL)
+        {
+            if(node)
+            {
+                free(node);
+                node = NULL;
+            } 
+        }
+        else
+        {
+            if(node == node->parent->left)
+            // free(node);
+            // node = NULL;
+            {
+                node->parent->left = NULL;
+            }
+            else
+            {
+                node->parent->right = NULL;
+            }
+            if(node)
+            {
+                free(node);
+                node = NULL;
+            }  
+        }   
+    }
+}
+
 /* 二叉树的删除 */
 int binarySearchTreeDelete(binarySearchTree *pBstree, ELEMENTTYPE val)
 {
-
+    /* 算法：
+    度为2 结点的前驱/后继 结点的度一定为1和0
+    删除度为2的结点
+    1、找到前驱/后继结点的值
+    2、复制前驱结点的value 到 要删除的节点
+    3、删除前驱/后继结点*/  
+    /*
+    删除度为2的结点
+    1、找到前驱结点的值
+    2、复制前驱结点的value 到 要删除的结点
+    3、删除前驱结点
+    删除度为0的结点：
+    直接删除结点，并且将父节点的指针（left/right)置为NULL
+    删除度为1的结点：
+    说明一定有孩子(要么是left要么是right)
+    1、让孩子的parent指针指向delNode->parent
+    2、然delNode->parent(left/right)指向delNode的孩子
+    */
+    int ret= 0;
+    #if 0
+    BSTreeNode *delNode = baseAppointValGetBSTreeNode(pBstree,val);
+    binarySearchTreeDeleteNode(pBstree, delNode);
+    #else
+    return binarySearchTreeDeleteNode(pBstree, baseAppointValGetBSTreeNode(pBstree,val));
+    #endif
+    return ret;
 }
 
 /* 二叉树的销毁 */
