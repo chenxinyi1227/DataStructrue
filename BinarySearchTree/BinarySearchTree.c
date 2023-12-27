@@ -117,16 +117,28 @@ static BSTreeNode *bstreeNodePreDecessor(BSTreeNode *node)
     /* node->parent == NULL
        node == node->parent->right */
     return node->parent;
-    
-    /* 度为1 */
-
-    /* 度为0 */
-
 }
-/* 获取当前结点的的后驱结点 */
+/* 获取当前结点的的后继结点 */
 static BSTreeNode *bstreeNodeSucDecessor(BSTreeNode *node)
 {
-    
+    if(node->right != NULL)
+    {
+        /* 前驱节点是在右子树的左子树的左子树的左子树上... */
+        BSTreeNode * travelNode = node->right;
+        while(travelNode->left != NULL)
+        {
+            travelNode = travelNode->left;
+        }
+        return travelNode;
+    }
+    /* 程序到这个地方 说明一定没有右子树，那就需要向父结点找 */
+    while(node->parent != NULL && node == node->parent->right)
+    {
+        node = node->parent;
+    }
+    /* node->parent == NULL
+       node == node->parent->left */
+    return node->parent;
 }
 
 static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode)//在上一个父节点后添加节点
