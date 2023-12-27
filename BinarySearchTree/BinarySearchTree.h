@@ -49,4 +49,9 @@ int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree);
 /* 获取二叉树的高度:需要记录每一层的结点树->每一层的节点数技术完成，就是树的高度加1 */
 int binarySearchTreeGetHeight(binarySearchTree *pBstree, int *pHeight);
 
+/* 二叉树的删除 */
+int binarySearchTreeDelete(binarySearchTree *pBstree, ELEMENTTYPE val);
+
+/* 二叉树的销毁 */
+int binarySearchTreeDelete(binarySearchTree *pBstree);
 #endif

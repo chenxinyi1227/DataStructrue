@@ -390,3 +390,52 @@ int binarySearchTreeGetHeight(binarySearchTree *pBstree, int *pHeight)
     doubleLinkListQueueDestroy(pQueue);
     return ret;
 }
+
+/* 二叉树的删除 */
+int binarySearchTreeDelete(binarySearchTree *pBstree, ELEMENTTYPE val)
+{
+
+}
+
+/* 二叉树的销毁 */
+int binarySearchTreeDelete(binarySearchTree *pBstree)
+{
+    int ret = 0;
+    if(pBstree == NULL)
+    {
+        return NULL_PTR;
+    }
+    doubleLinkListQueue *pQueue = NULL;
+    doubleLinkListQueueInit(&pQueue);
+    BSTreeNode * travelNode = NULL;
+    while(!doubleLinkListQueueIsEmpty(pQueue))
+    {
+        doubleLinkListQueueTop(pQueue, (void **)&travelNode);
+        doubleLinkListQueuePop(pQueue);
+
+        if(travelNode->left != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->left);
+        }
+
+        if(travelNode->right != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->right);
+        }
+        /* 最后释放 */
+         if(travelNode)
+        {
+            free(travelNode);
+            travelNode = NULL;
+        }
+        /* 释放队列 */
+        doubleLinkListQueueDestroy(pQueue);
+        /* 释放树 */
+        if(pBstree)
+        {
+            free(pBstree);
+            pBstree = NULL;
+        }
+    }
+    return ret;
+}
