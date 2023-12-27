@@ -8,7 +8,7 @@ int doubleLinkListQueueInit(doubleLinkListQueue **pQueue)
 }
 
 /* 队列入队 */
-int doubleLinkListQueuePush(doubleLinkListQueue *pQueue, ELEMENTTYPE *val)
+int doubleLinkListQueuePush(doubleLinkListQueue *pQueue, ELEMENTTYPE val)
 {
     return doubleLinkListTailInsert(pQueue, val);
 }
