@@ -635,14 +635,14 @@ int binarySearchTreeDestroy(binarySearchTree *pBstree)
             free(travelNode);
             travelNode = NULL;
         }
-        /* 释放队列 */
-        doubleLinkListQueueDestroy(pQueue);
-        /* 释放树 */
-        if(pBstree)
-        {
-            free(pBstree);
-            pBstree = NULL;
-        }
+    }
+    /* 释放队列 */
+    doubleLinkListQueueDestroy(pQueue);
+    /* 释放树 */
+    if(pBstree)
+    {
+        free(pBstree);
+        pBstree = NULL;
     }
     return ret;
 }
