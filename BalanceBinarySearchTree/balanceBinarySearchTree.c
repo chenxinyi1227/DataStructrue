@@ -1,8 +1,8 @@
 #include "balanceBinarySearchTree.h"
 #include "doubleLinkListQueue.h"
-#include "common.h"
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 /* 状态码 */
 enum STATUS_CODE
@@ -60,13 +60,15 @@ static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNo
 /* 获取AVL结点较高的子结点 */
 static AVLTreeNode *AVLTreeNodeGetChildTaller(AVLTreeNode *node);
 /* 当前结点是父节点的左子树 */
-static AVLTreeNode * AVLTreeCurrentNodeIsLeft(AVLTreeNode *node);
+static int AVLTreeCurrentNodeIsLeft(AVLTreeNode *node);
 /* 当前结点是父节点的左子树 */
-static AVLTreeNode * AVLTreeCurrentNodeIsRight(AVLTreeNode *node);
+static int AVLTreeCurrentNodeIsRight(AVLTreeNode *node);
 /* LL 左旋 */
 static int AVLTreeCurrentNodeRotateLeft(balanceBinarySearchTree *pAvltree, AVLTreeNode *grand);
 /* LL 右旋 */
 static int AVLTreeCurrentNodeRotateRight(balanceBinarySearchTree *pAvltree, AVLTreeNode *grand);
+/* 维护父结点 */
+static int AVLTreeNodeRotate(balanceBinarySearchTree *pAvltree,AVLTreeNode *grand, AVLTreeNode *parent,AVLTreeNode *child);
 
 /* 二叉搜索树的初始化 */
 int balanceBinarySearchTreeInit(balanceBinarySearchTree **pAvltree, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val))
@@ -187,21 +189,22 @@ static AVLTreeNode *AVLTreeNodeGetChildTaller(AVLTreeNode *node)
     }
 }
 
-/* 当前结点是父节点的左子树 */
-static AVLTreeNode * AVLTreeCurrentNodeIsLeft(AVLTreeNode *node)
+/* 当前结点是父结点的左子树 */
+static int  AVLTreeCurrentNodeIsLeft(AVLTreeNode *node)
 {
     return (node->parent != NULL) && (node == node->parent->left);
 }
-/* 当前结点是父节点的左子树 */
-static AVLTreeNode * AVLTreeCurrentNodeIsRight(AVLTreeNode *node)
+/* 当前结点是父结点的左子树 */
+static int AVLTreeCurrentNodeIsRight(AVLTreeNode *node)
 {
     return (node->parent != NULL) && (node == node->parent->right);
 }
 
 /* 维护父结点 */
-static AVLTreeNodeRotate(balanceBinarySearchTree *pAvltree,AVLTreeNode *grand, AVLTreeNode *parent,AVLTreeNode *child)
+static int AVLTreeNodeRotate(balanceBinarySearchTree *pAvltree,AVLTreeNode *grand, AVLTreeNode *parent,AVLTreeNode *child)
 {
-    parent->parent = grand->parent;//parent成为新的结点  //3
+    int ret = 0;
+    parent->parent = grand->parent;//parent成为新的根结点  //3
     if(AVLTreeCurrentNodeIsLeft(grand))
     {
         grand->parent->left = parent;     //4
@@ -224,6 +227,7 @@ static AVLTreeNodeRotate(balanceBinarySearchTree *pAvltree,AVLTreeNode *grand, A
     /* 先更新低的结点 */
     AVLTreeNodeUpdateHeight(grand);
     AVLTreeNodeUpdateHeight(parent); 
+    return ret;
 }
 
 /* RR 左旋 */

@@ -1,6 +1,6 @@
 #include "balanceBinarySearchTree.h"
 #include <stdio.h>
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 3
 
 /* 测试二叉搜索树 */
 int compareBasicFunc(void * arg1, void * arg2)
@@ -22,7 +22,7 @@ int main()
 {
     balanceBinarySearchTree * AVL;
     balanceBinarySearchTreeInit(&AVL, compareBasicFunc, printBasicData);
-    int buffer[BUFFER_SIZE] = {56, 28, 75, 73, 77};
+    int buffer[BUFFER_SIZE] = {11, 22, 33};
     for(int idx = 0; idx < BUFFER_SIZE; idx++)
     {
         balanceBinarySearchTreeInsert(AVL, (void *)&buffer[idx]);
@@ -36,14 +36,15 @@ int main()
     int height = 0;
     balanceBinarySearchTreeGetHeight(AVL,&height);
     printf("height:%d\n", height);
-    
+
+ /* 层序遍历 */
+    printf("层序遍历\n");
+    balanceBinarySearchTreeLevelOrderTraverse(AVL);
+    printf("\n");
+#if 0
     /* 中序遍历 */
     printf("中序遍历\n");
     balanceBinarySearchTreeMidOrderTraverse(AVL);
-    printf("\n");
-    /* 层序遍历 */
-    printf("层序遍历\n");
-    balanceBinarySearchTreeLevelOrderTraverse(AVL);
     printf("\n");
 
 {
@@ -67,7 +68,7 @@ int main()
     balanceBinarySearchTreeLevelOrderTraverse(AVL);
     printf("\n");
 }
-
+#endif
 
     
     return 0;
