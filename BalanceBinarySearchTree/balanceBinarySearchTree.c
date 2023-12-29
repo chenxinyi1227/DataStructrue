@@ -201,7 +201,7 @@ static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNo
         }
         else
         {
-            /* RRR */
+            /* RR */
         }
     }
 }
