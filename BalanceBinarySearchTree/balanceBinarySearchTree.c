@@ -59,6 +59,11 @@ static AVLTreeNode *AVLTreeNodeGetChildTaller(AVLTreeNode *node);
 static AVLTreeNode * AVLTreeCurrentNodeIsLeft(AVLTreeNode *node);
 /* 当前结点是父节点的左子树 */
 static AVLTreeNode * AVLTreeCurrentNodeIsRight(AVLTreeNode *node);
+/* LL 左旋 */
+static int AVLTreeCurrentNodeRotateLeft(balanceBinarySearchTree *pAvltree, AVLTreeNode *grand);
+/* LL 右旋 */
+static int AVLTreeCurrentNodeRotateRight(balanceBinarySearchTree *pAvltree, AVLTreeNode *grand);
+
 /* 二叉搜索树的初始化 */
 int balanceBinarySearchTreeInit(balanceBinarySearchTree **pAvltree, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val))
 {
@@ -188,7 +193,47 @@ static AVLTreeNode * AVLTreeCurrentNodeIsRight(AVLTreeNode *node)
 {
     return (node->parent != NULL) && (node == node->parent->right);
 }
+/* 左旋 */
+static int AVLTreeCurrentNodeRotateLeft(balanceBinarySearchTree *pAvltree,AVLTreeNode *grand)
+{
+  
+}
 
+/* LL 右旋 */
+static int AVLTreeCurrentNodeRotateRight(balanceBinarySearchTree *pAvltree, AVLTreeNode *grand)
+{
+    int ret = 0;
+    AVLTreeNode * parent = grand->left;
+    AVLTreeNode * child = grand->right;
+
+    grand->left = child;                    //1
+    parent->right = grand;                  //2
+    /* p成为新的根节点 */
+    parent->parent = grand->parent;         //3
+    if(AVLTreeCurrentNodeIsLeft(grand))
+    {
+        grand->parent->left = parent;       //4
+    }
+    else if(AVLTreeCurrentNodeIsRight(grand))
+    {
+        grand->parent->right = parent;       //4
+    }
+    else
+    {
+        /* p成为树的根结点 */
+        pAvltree->root = parent;            //4
+    }
+    grand->parent = parent;                 //5
+    if(child != NULL)
+    {
+        child->parent = grand;              //6
+    }
+    /* 更新高度 */
+    /* 先更新低的结点 */
+    AVLTreeNodeUpdateHeight(grand);
+    AVLTreeNodeUpdateHeight(parent);
+    return ret;
+}
 /* AVL树调整结点平衡 */
 /* node一定是最低的不平衡结点 */
 static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNode *node)
@@ -201,7 +246,9 @@ static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNo
     {   
         if(AVLTreeCurrentNodeIsLeft(child))
         {
-            /* LL */
+            /* LL 右旋*/
+            AVLTreeCurrentNodeRotateRight(pAvltree,node);
+
         }
         else if(AVLTreeCurrentNodeIsRight(child))
         {
