@@ -53,6 +53,8 @@ static int AVLTreeNodeIsBalanceFactor(AVLTreeNode *node);
 static int AVLTreeNodeIsBalanced(AVLTreeNode *node);
 /* AVL树调整结点平衡 */
 static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNode *node);
+/* 获取AVL结点较高的子结点 */
+static AVLTreeNode *AVLTreeNodeGetChildTaller(AVLTreeNode *node);
 
 /* 二叉搜索树的初始化 */
 int balanceBinarySearchTreeInit(balanceBinarySearchTree **pAvltree, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val))
@@ -146,10 +148,62 @@ static int AVLTreeNodeUpdateHeight(AVLTreeNode *node)
     return ret;
 }
 
+/* 获取AVL结点较高的子结点 */
+static AVLTreeNode *AVLTreeNodeGetChildTaller(AVLTreeNode *node)
+{
+    int leftHeight = node->left == NULL ? 0 : node->left->height;//左子树高度
+    int rightHeight= node->right == NULL ? 0 : node->right->height;//右子树高度
+    if(leftHeight > rightHeight)
+    {
+        return node->left;
+    }
+    else if(leftHeight < rightHeight)
+    {
+        return node->right;
+    }
+    else
+    {
+        /* leftHeight = rightHeight */
+        if(node->parent != NULL && node == node->parent->left)
+        {
+            return node->left;
+        } 
+        else
+        {
+            return node->right;
+        }
+    }
+}
 /* AVL树调整结点平衡 */
+/* node一定是最低的不平衡结点 */
 static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNode *node)
 {
-    
+    /* LL LR RL RR */
+    AVLTreeNode *parent =  AVLTreeNodeGetChildTaller(node);
+    AVLTreeNode * child = AVLTreeNodeGetChildTaller(parent);
+  
+    if(parent == node->parent)  /* L */
+    {   
+        if(child == node->left)
+        {
+            /* LL */
+        }
+        else
+        {
+            /* LR */
+        }
+    }
+    else /* R */
+    {
+        if(child == node->left)
+        {
+            /* RL */
+        }
+        else
+        {
+            /* RRR */
+        }
+    }
 }
 
 /* 添加结点之后的操作 */
