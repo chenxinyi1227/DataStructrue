@@ -193,9 +193,11 @@ static AVLTreeNode * AVLTreeCurrentNodeIsRight(AVLTreeNode *node)
 {
     return (node->parent != NULL) && (node == node->parent->right);
 }
+
+/* 维护父结点 */
 static AVLTreeNodeRotate(balanceBinarySearchTree *pAvltree,AVLTreeNode *grand, AVLTreeNode *parent,AVLTreeNode *child)
 {
-    parent->parent = grand->parent;
+    parent->parent = grand->parent;//parent成为新的结点  //3
     if(AVLTreeCurrentNodeIsLeft(grand))
     {
         grand->parent->left = parent;     //4
