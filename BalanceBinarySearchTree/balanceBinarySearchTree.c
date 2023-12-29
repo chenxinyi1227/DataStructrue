@@ -559,7 +559,14 @@ int balanceBinarySearchTreeGetHeight(balanceBinarySearchTree *pAvltree, int *pHe
     {
         return NULL_PTR;//应该返回0
     }
-    
+    #if 0
+    if(pAvltree->size == NULL)
+    {
+        return 0;
+    }
+    *pHeight = pAvltree->root->height;
+    return pAvltree->root->height;
+    #else
     if(pAvltree->size == 0)//空树
     {
         return 0;
@@ -596,6 +603,7 @@ int balanceBinarySearchTreeGetHeight(balanceBinarySearchTree *pAvltree, int *pHe
     *pHeight = height;//解引用
     /* 释放队列 */
     doubleLinkListQueueDestroy(pQueue);
+    #endif
     return ret;
 }
 
