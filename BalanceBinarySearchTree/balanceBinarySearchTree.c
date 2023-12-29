@@ -55,7 +55,10 @@ static int AVLTreeNodeIsBalanced(AVLTreeNode *node);
 static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNode *node);
 /* 获取AVL结点较高的子结点 */
 static AVLTreeNode *AVLTreeNodeGetChildTaller(AVLTreeNode *node);
-
+/* 当前结点是父节点的左子树 */
+static AVLTreeNode * AVLTreeCurrentNodeIsLeft(AVLTreeNode *node);
+/* 当前结点是父节点的左子树 */
+static AVLTreeNode * AVLTreeCurrentNodeIsRight(AVLTreeNode *node);
 /* 二叉搜索树的初始化 */
 int balanceBinarySearchTreeInit(balanceBinarySearchTree **pAvltree, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val))
 {
@@ -164,16 +167,28 @@ static AVLTreeNode *AVLTreeNodeGetChildTaller(AVLTreeNode *node)
     else
     {
         /* leftHeight = rightHeight */
-        if(node->parent != NULL && node == node->parent->left)
+        if(AVLTreeCurrentNodeIsLeft(node))
         {
             return node->left;
         } 
-        else
+        else if(AVLTreeCurrentNodeIsRight(node))
         {
             return node->right;
         }
     }
 }
+
+/* 当前结点是父节点的左子树 */
+static AVLTreeNode * AVLTreeCurrentNodeIsLeft(AVLTreeNode *node)
+{
+    return (node->parent != NULL) && (node == node->parent->left);
+}
+/* 当前结点是父节点的左子树 */
+static AVLTreeNode * AVLTreeCurrentNodeIsRight(AVLTreeNode *node)
+{
+    return (node->parent != NULL) && (node == node->parent->right);
+}
+
 /* AVL树调整结点平衡 */
 /* node一定是最低的不平衡结点 */
 static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNode *node)
@@ -182,24 +197,24 @@ static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNo
     AVLTreeNode *parent =  AVLTreeNodeGetChildTaller(node);
     AVLTreeNode * child = AVLTreeNodeGetChildTaller(parent);
   
-    if(parent == node->parent)  /* L */
+    if(AVLTreeCurrentNodeIsLeft(parent))  /* L */
     {   
-        if(child == node->left)
+        if(AVLTreeCurrentNodeIsLeft(child))
         {
             /* LL */
         }
-        else
+        else if(AVLTreeCurrentNodeIsRight(child))
         {
             /* LR */
         }
     }
     else /* R */
     {
-        if(child == node->left)
+        if(AVLTreeCurrentNodeIsLeft(child))
         {
             /* RL */
         }
-        else
+        else if(AVLTreeCurrentNodeIsRight(child))
         {
             /* RR */
         }
@@ -552,6 +567,7 @@ int balanceBinarySearchTreeGetNodeSize(balanceBinarySearchTree *pAvltree, int *p
 }
 
 /* 获取二叉树的高度 */
+/* 层序遍历的思路 */
 int balanceBinarySearchTreeGetHeight(balanceBinarySearchTree *pAvltree, int *pHeight)
 {
     int ret = 0;
