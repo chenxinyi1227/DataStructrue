@@ -155,7 +155,7 @@ static int AVLTreeNodeUpdateHeight(AVLTreeNode *node)
     int leftHeight = node->left == NULL ? 0 : node->left->height;
     /* 右子树高度 */
     int rightHeight = node->right == NULL ? 0 : node->right->height;
-    return 1 + tmpMax(leftHeight, rightHeight);
+    node->height =  1 + tmpMax(leftHeight, rightHeight);//不应该return
     #else
     AVLTreeNodeIsBalanceFactor(node) >= 0 ? 1 + node->left->height : node->right->height;
     #endif
