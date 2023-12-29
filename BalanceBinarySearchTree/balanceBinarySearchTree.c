@@ -13,6 +13,9 @@ enum STATUS_CODE
     MALLOC_ERROR,
     INVALID_ACCESS  //非法访问
 };
+
+#define true 1
+#define false 0
 /* 静态函数前置声明 */
 #if 0
 static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
@@ -41,7 +44,15 @@ static AVLTreeNode *bstreeNodePreDecessor(AVLTreeNode *node);
 /* 获取当前结点的的后驱结点 */
 static AVLTreeNode *bstreeNodeSucDecessor(AVLTreeNode *node);
 /* 添加结点之后的操作 */
-static int insertNodeAfter(AVLTreeNode *node);
+static int insertNodeAfter(balanceBinarySearchTree *pAvltree, AVLTreeNode *node);
+/* 更新结点高度 */
+static int AVLTreeNodeUpdateHeight(AVLTreeNode *node);
+/* 计算结点的平衡因子 */
+static int AVLTreeNodeIsBalanceFactor(AVLTreeNode *node);
+/* 判断结果是否平衡 */
+static int AVLTreeNodeIsBalanced(AVLTreeNode *node);
+/* AVL树调整结点平衡 */
+static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNode *node);
 
 /* 二叉搜索树的初始化 */
 int balanceBinarySearchTreeInit(balanceBinarySearchTree **pAvltree, int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val))
@@ -90,6 +101,83 @@ static compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
     return val1 - val2;
 }
 #endif
+
+/* 计算结点的平衡因子 */
+static int AVLTreeNodeIsBalanceFactor(AVLTreeNode *node)
+{
+    /* 左子树高度 */
+    int leftHeight = node->left == NULL ? 0 : node->left->height;
+    /* 右子树高度 */
+    int rightHeight = node->right == NULL ? 0 : node->right->height;
+    return leftHeight - rightHeight;
+}
+
+/* 判断结果是否平衡 */
+static int AVLTreeNodeIsBalanced(AVLTreeNode *node)
+{
+    int nodeFactor = abs(AVLTreeNodeIsBalanceFactor(node));
+    if(nodeFactor <= 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+static int tmpMax(int val1, int val2)
+{
+    return val1 - val2 >= 0 ? val1 : val2;
+}
+/* 更新结点高度 */
+static int AVLTreeNodeUpdateHeight(AVLTreeNode *node)
+{
+    int ret = 0;
+    #if 1
+     /* 左子树高度 */
+    int leftHeight = node->left == NULL ? 0 : node->left->height;
+    /* 右子树高度 */
+    int rightHeight = node->right == NULL ? 0 : node->right->height;
+    return 1 + tmpMax(leftHeight, rightHeight);
+    #else
+    AVLTreeNodeIsBalanceFactor(node) >= 0 ? 1 + node->left->height : node->right->height;
+    #endif
+    return ret;
+}
+
+/* AVL树调整结点平衡 */
+static int AVLTreeNodeAdjustBalance(balanceBinarySearchTree *pAvltree, AVLTreeNode *node)
+{
+    
+}
+
+/* 添加结点之后的操作 */
+/* 新添加的结点一定是叶子结点 */
+static int insertNodeAfter(balanceBinarySearchTree *pAvltree, AVLTreeNode *node)
+{   
+    int ret = 0;
+    while((node = node->parent) != NULL)
+    {
+        /* 程序执行到这里，一定不止一个结点 */
+        if(AVLTreeNodeIsBalanced(node))
+        {
+            /* 如果节点是平衡的，更新高度 */
+            AVLTreeNodeUpdateHeight(node);
+        }
+        else
+        {
+            /* node是最低不平衡点 */
+            /* 开始更新平衡 */
+            AVLTreeNodeAdjustBalance(pAvltree, node);
+        }
+
+    }
+    /* 更新结点高度 */
+    
+    /* 调整平衡 */
+    return ret;
+}
 
 /* 判断二叉搜索树度为2 */
 static int balanceBinarySearchTreeNodeHasTwochilds(AVLTreeNode *node)
@@ -177,14 +265,6 @@ static AVLTreeNode *createAVLTreeNewNode(ELEMENTTYPE val, AVLTreeNode *parentNod
     return newAVLNode;
 }
 
-/* 添加结点之后的操作 */
-static int insertNodeAfter(AVLTreeNode *node)
-{   
-    int ret = 0;
-    /* 更新结点高度 */
-    return ret;
-}
-
 /* 二叉搜索树的插入 */
 int balanceBinarySearchTreeInsert(balanceBinarySearchTree *pAvltree, ELEMENTTYPE val)
 {
@@ -193,7 +273,7 @@ int balanceBinarySearchTreeInsert(balanceBinarySearchTree *pAvltree, ELEMENTTYPE
     {
         pAvltree->size++;//更新树的结点
         pAvltree->root->data = val;
-        insertNodeAfter(pAvltree->root);
+        insertNodeAfter(pAvltree, pAvltree->root);
         return ret;
     }
     /* travelNode 指向根结点 */
@@ -247,7 +327,7 @@ int balanceBinarySearchTreeInsert(balanceBinarySearchTree *pAvltree, ELEMENTTYPE
         parentNode->right = newAVLNode;
     }
     /* 添加之后的调整 */
-    insertNodeAfter(newAVLNode);
+    insertNodeAfter(pAvltree, newAVLNode);
     
 #if 0
     /* 新节点的parent指针赋值 */
@@ -481,7 +561,7 @@ static int balanceBinarySearchTreeDeleteNode(balanceBinarySearchTree *pAvltree, 
     int ret = 0;
     if(node == NULL)
     {
-        return ret;
+        return ret;  
     }
 
     /* 树的结点减一 */
