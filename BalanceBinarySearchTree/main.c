@@ -41,6 +41,16 @@ int main()
     printf("层序遍历\n");
     balanceBinarySearchTreeLevelOrderTraverse(AVL);
     printf("\n");
+    int val = 21;
+    int fd= balanceBinarySearchTreeIsContainAppointVal(AVL, (void *)&val);
+    if(fd)
+    {
+        printf("true\n");
+    }
+    else
+    {
+         printf("true\n");
+    }
 #if 0
     /* 中序遍历 */
     printf("中序遍历\n");
