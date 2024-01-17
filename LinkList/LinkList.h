@@ -45,7 +45,7 @@ int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val, int(*compareFunc)(EL
 int LinkListGetLength(LinkList *pList, int *pSize);
 
 /* 链表的销毁 */
-int LinkListDestory(LinkList *pList);
+int LinkListDestroy(LinkList *pList);
 
 /* 链表遍历接口 */
 int LinkListForeach(LinkList *pList, int(*printFunc)(ELEMENTYPE));

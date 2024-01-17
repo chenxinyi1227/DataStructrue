@@ -249,7 +249,7 @@ int LinkListGetLength(LinkList *pList, int *pSize)
 }
 
 /* 链表的销毁 */
-int LinkListDestory(LinkList *pList)
+int LinkListDestroy(LinkList *pList)
 {
     int ret = 0;
     /* 头删释放链表 */

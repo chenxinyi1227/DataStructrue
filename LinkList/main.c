@@ -1,91 +1,116 @@
+#include <stdio.h>
 #include "LinkList.h"
-#include <stdio.h>  
 #include <string.h>
 
-#define BUFFER_SIZE 3
+#define BUFFER_SIZE    6
+
 
 typedef struct stuInfo
 {
     int age;
     char sex;
-}stuInfo;
+} stuInfo; 
+
 
 /* 自定义打印 */
 int printStruct(void *arg)
 {
-    stuInfo *info= (stuInfo*)arg;
-    printf("age:%d\tsex:%c\n", info->age, info->sex);
+    stuInfo *info = (stuInfo*)arg;
+    printf("age:%d\t, sex:%c\n", info->age, info->sex);
 }
 
 int printBasicData(void *arg)
 {
     int data = *(int *)arg;
-    printf("data:%d\n", data);
+    printf("data:%d\t", data);
 }
 
-int compare(void *pvData1, void *pvData2)
+int compareBasicFunc(void *arg1, void *arg2)
 {
-    int num1 = *(int *)pvData1;
-    int num2 = *(int *)pvData2;
-    return num1 == num2 ? 0 : 1;
+    int data1 = *(int *)arg1;
+    int data2 = *(int *)arg2;
+    return data1 - data2;
 }
 
 int main()
 {
+#if 0
+    /* strcpy第一个参数是传出参数 并返回值也是直线dst的地址的. */
+    char buffer[BUFFER_SIZE] = {0};
+    char *ptr = strcpy(buffer, "zhangsan");
+    printf("buffer:%s\n", buffer);
+    printf("ptr:%s\n", ptr);
+#endif
 
-#if 1
+#if 0
+    /* snmp */
+    /* 华润电力 */
+#endif
 
     LinkList *list = NULL;
-    LinkListInit(&list);    //初始化链表
+    /* 初始化链表 */
+    LinkListInit(&list);
 
-#if 1
-    int buffer[BUFFER_SIZE] = {1, 2, 3};
-    for(int idx = 0; idx < BUFFER_SIZE; idx++)//插入数据
+#if 0
+    int buffer[BUFFER_SIZE] = {1, 2, 3, 4, 5, 6};
+    /* 插入数据 */
+    for (int idx = 0; idx < BUFFER_SIZE; idx++)
     {
         LinkListHeadInsert(list, (void *)&buffer[idx]);
     }
-    int size = 0;
-    LinkListGetLength(list,&size);//获取链表的长度
-    printf("size:%d\n", size);
-    LinkListForeach(list, printBasicData);
 
+    /* 插入数据 */
+    for (int idx = 0; idx < BUFFER_SIZE; idx++)
     {
-        printf("\n测试按指定位置插入\n");
-        int val = 4;
-        LinkListAppointPosInsert(list, 1, &val);//按指定位置插入
-        LinkListForeach(list, printBasicData);
-        printf("\n测试尾插\n");
-        int val1 = 7;
-        LinkListTailInsert(list, &val1);
-        LinkListForeach(list, printBasicData);
-    }
-
-    {
-        printf("\n测试头删\n");
-        LinkListHeadDel(list);
-        LinkListForeach(list, printBasicData);
-        printf("\n测试尾删\n");
-        LinkListTailDel(list);
-        LinkListForeach(list, printBasicData);
-        int pos = 2;
-        printf("\n测试删除指定位置%d\n", pos);
-        LinkListDelAppointPos(list, pos);//指定位置删除
-        LinkListForeach(list, printBasicData);
+        LinkListTailInsert(list, (void *)&buffer[idx]);
     }
     
-    {
-        int val = 1;
-        printf("\n测试删除指定元素:%d\n", val);
-        LinkListDelAppointData(list, &val, compare);
-        LinkListForeach(list, printBasicData);
-    }
+    /* 获取链表的长度 */
+    int size = 0;
+    LinkListGetLength(list, &size);
+    printf("size:%d\n", size);
 
+    LinkListForeach(list, printBasicData);
+    printf("\n");
+
+    int insertNum = 777;
+    LinkListAppointPosInsert(list, 0, &insertNum);
+    LinkListForeach(list, printBasicData);
+    printf("\n");
+
+
+    LinkListDelAppointPos(list, 0);
+    LinkListForeach(list, printBasicData);
+    printf("\n");
+
+    int delNum = 1;
+    LinkListDelAppointData(list, &delNum, compareBasicFunc);
+
+    LinkListForeach(list, printBasicData);
+    printf("\n");
+
+    delNum = 6;
+    LinkListDelAppointData(list, &delNum, compareBasicFunc);
+    LinkListForeach(list, printBasicData);
+    printf("\n");
+
+    printf("===================\n");
+    LinkListHeadDel(list);
+    LinkListForeach(list, printBasicData);
+    printf("\n");
+
+    printf("===================\n");
+    LinkListTailDel(list);
+    LinkListForeach(list, printBasicData);
+    printf("\n");
+
+    /* 销毁链表 */
+    LinkListDestroy(list);
 #else
     stuInfo stu1, stu2, stu3;
     memset(&stu1, 0, sizeof(stu1));
     memset(&stu2, 0, sizeof(stu2));
     memset(&stu3, 0, sizeof(stu3));
-    
 
     stu1.age = 10;
     stu1.sex = 'm';
@@ -94,28 +119,22 @@ int main()
     stu2.sex = 'f';
 
     stu3.age = 30;
-    stu3.sex ='m';
-    
+    stu3.sex = 'm';
+
     stuInfo buffer[BUFFER_SIZE] = {stu1, stu2, stu3};
-    for(int idx = 0; idx < BUFFER_SIZE; idx++)
+
+    for (int idx = 0; idx < BUFFER_SIZE; idx++)
     {
         LinkListHeadInsert(list, (void *)&buffer[idx]);
     }
- 
-     int size = 0;
-    LinkListGetLength(list,&size);//获取链表的长度
+    
+    /* 获取链表的长度 */
+    int size = 0;
+    LinkListGetLength(list, &size);
     printf("size:%d\n", size);
 
-    LinkListForeach(list, printStruct);      //遍历
-
-//     stuInfo *info = NULL;  //二级指针 
-//    // memset(&info, 0, sizeof(info));
-//     for(int idx = 0; idx < BUFFER_SIZE; idx++)
-//     {
-//         dynamicArrayGetAppointPosVal(list, idx, (void *)&info);
-//         printf("info.age:%d\tinfo.sex:%c\n", info->age, info->sex);
-//     }
-    #endif
+    /* 遍历 */
+    LinkListForeach(list, printStruct);
 #endif
     return 0;
 }
