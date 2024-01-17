@@ -307,6 +307,12 @@ int doubleLinkListDestroy(doubleLinkList *pList)
         pList->head = NULL;
         pList->tail = NULL;
     }
+
+    if(pList != NULL)
+    {
+        free(pList);
+        pList = NULL;
+    }
     return ret;
 }
 
