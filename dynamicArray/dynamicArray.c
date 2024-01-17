@@ -195,7 +195,7 @@ static int shrinkDynamicCapacity(dynamicArray *pArray)
 }
 
 /* 动态数组删除指定位置数据 */
-int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
+int     dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
 {
     if(pArray == NULL)
     {
@@ -214,7 +214,8 @@ int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
     }
 
     /* 数据前移 */
-    for(int idx = pos; idx < pArray->len; idx++)
+    /* 删除指定位置的时候，最后的位置是len - 1 */
+    for(int idx = pos; idx < pArray->len - 1; idx++)//len - 1 临界值问题
     {
         pArray->data[idx] = pArray->data[idx + 1];
     }
