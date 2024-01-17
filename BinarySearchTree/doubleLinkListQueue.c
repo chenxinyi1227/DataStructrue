@@ -48,5 +48,5 @@ int doubleLinkListQueueIsEmpty(doubleLinkListQueue *pQueue)
 /* 队列销毁 */
 int doubleLinkListQueueDestroy(doubleLinkListQueue *pQueue)
 {
-    return doubleLinkListDestory(pQueue);
+    return doubleLinkListDestroy(pQueue);
 }

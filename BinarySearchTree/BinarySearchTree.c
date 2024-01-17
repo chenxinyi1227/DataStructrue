@@ -56,28 +56,13 @@ int binarysearchTreeInit(binarySearchTree **pBstree, int(*compareFunc)(ELEMENTTY
         bstree->cpmpareFunc = compareFunc;
         bstree->visit = visit;
     }
-    #if 0
-    /* 分配根结点 */
-    bstree->root = (BSTreeNode *)malloc(sizeof(BSTreeNode));
-    if(bstree->root = NULL)
+    bstree->root = createBSTreeNewNode(0, NULL);
+    if (bstree->root == NULL)
     {
         return MALLOC_ERROR;
     }
-    memset(bstree->root, 0, sizeof(BSTreeNode));
- 
-    /* 初始化根结点 */
-    {
-        bstree->root->data = 0;
-        bstree->root->left = NULL;
-        bstree->root->right = NULL;
-        bstree->root->parent = NULL;
-    }
-       #endif
-    #if 0
-    doubleLinkListQueueInit(&(bstree->pQueue));
-    #endif
-    bstree->root = createBSTreeNewNode(0, NULL);//根结点的父节点为NULL
     *pBstree = bstree;
+    return ret;
 }
 #if 0
 static compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
@@ -150,6 +135,7 @@ static BSTreeNode *bstreeNodeSucDecessor(BSTreeNode *node)
 
 static BSTreeNode *createBSTreeNewNode(ELEMENTTYPE val, BSTreeNode *parentNode)//在上一个父节点后添加节点
 {
+    /* 分配根结点 */
     BSTreeNode *newBstNode = (BSTreeNode *)malloc(sizeof(BSTreeNode));
     if(newBstNode == NULL)
     {
