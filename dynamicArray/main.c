@@ -1,5 +1,5 @@
-#include "dynamicArray.h"
 #include <stdio.h>
+#include "dynamicArray.h"
 #include <string.h>
 
 #define BUFFER_SIZE 20
@@ -106,15 +106,17 @@ int main()
     int size = 0;
     dynamicArrayGetSize(&array, &size);
     printf("size:%d\n", size);
-   
+
+    
     int *val = NULL;
-    printf("\n测试按指定位置插\n");
     for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
     {
         dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
         printf("val:%d\t", *val);
     }
-    printf("\n测试尾删\n");
+    printf("\n");
+
+    printf("==================\n");
     dynamicArrayDeleteData(&array);
     dynamicArrayGetSize(&array, &size);
     printf("size:%d\n", size);
@@ -124,39 +126,28 @@ int main()
         dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
         printf("val:%d\t", *val);
     }
-   
-    dynamicArrayDeleteAppointPosData(&array, 1);
-    printf("\n测试删除指定位置1\n");
-    for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
-    {
-        dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
-        printf("val:%d\t", *val);
-    }
+    printf("\n");
 
-    int delnum = 15;
-    printf("\n测试删除指定元素\n");
-    dynamicArrayDeleteAppointData(&array, &delnum, compareData);
-   
-   
+    printf("==================\n");
+    dynamicArrayDeleteAppointPosData(&array, 1);
     for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
     {
         dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
         printf("val:%d\t", *val);
     }
     printf("\n");
+    
+    printf("==================\n");
+    int delnum = 1;
+    dynamicArrayDeleteAppointData(&array, &delnum, compareData);
+    for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
     {
-        int delnum = 1;
-        printf("\n测试删除指定元素\n");
-        dynamicArrayDeleteAppointData(&array, &delnum, compareData);
-    
-    
-        for (int idx = 0; idx < dynamicArrayGetSize(&array, &size); idx++)
-        {
-            dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
-            printf("val:%d\t", *val);
-        }
-        printf("\n");
+        dynamicArrayGetAppointPosVal(&array, idx, (void *)&val);
+        printf("val:%d\t", *val);
     }
+    printf("\n");
+    /* 销毁 */
+    dynamicArrayDestroy(&array);
 #elif 0
     int idx = 0;
     for (idx; idx < DEFAULT_NUM; idx++)
