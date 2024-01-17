@@ -46,7 +46,7 @@ int doubleLinkListDelAppointData(doubleLinkList *pList, ELEMENTTYPE val, int(*co
 int doubleLinkListGetLength(doubleLinkList *pList, int *pSize);
 
 /* 链表的销毁 */
-int doubleLinkListDestory(doubleLinkList *pList);
+int doubleLinkListDestroy(doubleLinkList *pList);
 
 /* 链表遍历接口 */
 int doubleLinkListForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTTYPE));
