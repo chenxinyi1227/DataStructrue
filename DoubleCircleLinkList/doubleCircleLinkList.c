@@ -379,7 +379,7 @@ int doubleLinkListReverseForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTT
 /* 获取链表头位置的值 */
 int doubleLinkListGetHeadVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
 {
-    #if 0
+    #if 1
     int ret = 0;
     if(pList == NULL)
     {
@@ -391,7 +391,7 @@ int doubleLinkListGetHeadVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
     }
     return ret = 0;
     #else
-    return doubleLinkListGetAppointPosVal(pList, 1, pVal);
+    return doubleLinkListGetAppointPosVal(pList, 0, pVal);
     #endif
 } 
 /* 获取链表尾位置的值 */

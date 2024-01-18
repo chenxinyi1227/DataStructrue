@@ -1,4 +1,5 @@
-src=main.c doubleLinkList.c doubleLinkListQueue.c balanceBinarySearchTree.c
+#src=main.c doubleLinkList.c doubleLinkListQueue.c balanceBinarySearchTree.c
+src=*.c
 test:${src}
 	gcc ${src} -o test
 

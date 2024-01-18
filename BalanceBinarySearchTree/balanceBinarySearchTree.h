@@ -19,7 +19,7 @@ typedef struct balanceBinarySearchTree
 {
     AVLTreeNode * root;//根结点
     int size; //树的结点个数
-    int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);//钩子函数比较器,放到结构体内部
+    int(*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);//钩子函数比较器,放到结构体内部
     int (*visit)(ELEMENTTYPE val);/* 钩子函数 包装器实现自定义打印函数接口 */
 #if 0
     doubleLinkListQueue *pQueue;

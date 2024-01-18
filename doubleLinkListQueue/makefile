@@ -1,9 +1,10 @@
-src=main.c doubleLinkList.c doubleLinkListQueue.c
+#src=main.c doubleLinkList.c doubleLinkListQueue.c
+src=*.c
 test:${src}
 	gcc ${src} -o test
 
 g:${src}
 	gcc -g ${src} -o gtest
 
-clear:
+clean:
 	@rm -rf test gtest

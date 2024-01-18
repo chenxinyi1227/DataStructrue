@@ -1,5 +1,5 @@
-#include "doubleLinkList.h"
 #include <stdio.h>
+#include "doubleLinkList.h"
 #include <string.h>
 
 #define BUFFER_SIZE    3
@@ -92,12 +92,13 @@ int main()
     printf("\n");
 
     printf("==================\n");
-    doubleLinkListTailDel(list);//尾删有问题
+    doubleLinkListTailDel(list);
     doubleLinkListGetLength(list, &size);
     printf("size:%d\n", size);
     /* 遍历 */
     doubleLinkListForeach(list, printBasicData);
     printf("\n");
+
 
     printf("==================\n");
     doubleLinkListHeadDel(list);
@@ -116,7 +117,7 @@ int main()
     /* 遍历 */
     doubleLinkListForeach(list, printBasicData);
     printf("\n");
-   
+    
     /* 释放链表 */
     doubleLinkListDestroy(list);
 #elif 0

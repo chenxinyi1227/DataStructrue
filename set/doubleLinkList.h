@@ -1,6 +1,9 @@
 #ifndef _DOUBLELISTLINK_H_
 #define _DOUBLELISTLINK_H_
 
+#define ELEMENTTYPE void*
+#include "common.h"
+
 /* 链表初始化 */
 int doubleLinkListInit(doubleLinkList **pList);
 
@@ -29,7 +32,7 @@ int doubleLinkListDelAppointData(doubleLinkList *pList, ELEMENTTYPE val, int(*co
 int doubleLinkListGetLength(doubleLinkList *pList, int *pSize);
 
 /* 链表的销毁 */
-int doubleLinkListDestory(doubleLinkList *pList);
+int doubleLinkListDestroy(doubleLinkList *pList);
 
 /* 链表遍历接口 */
 int doubleLinkListForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTTYPE));

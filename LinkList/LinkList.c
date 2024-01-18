@@ -15,7 +15,7 @@ enum STATUS_CODE
 
 /* 静态函数只给本源文件（.c)的函数使用 */
 /* 静态前置声明 */
-static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE));
+static int LinkListAccordingAppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE));
 
 /* 链表初始化 */
 int LinkListInit(LinkList **pList)
@@ -179,7 +179,7 @@ LinkNode * travelNode = pList->head->next;
 }
 
 /* 根据指定的元素得到在链表中所在的位置 */
-static int LinkListAccordingApppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE))
+static int LinkListAccordingAppointValGetPos(LinkList *pList, ELEMENTYPE val, int *pPos, int(*compareFunc)(ELEMENTYPE,ELEMENTYPE))
 {
     /* 静态函数只给本源文件的函数使用，不需要判断合法性 */
     int ret;
@@ -223,10 +223,10 @@ int LinkListDelAppointData(LinkList *pList, ELEMENTYPE val, int (*compareFunc)(E
     int size = 0;       //链表的长度
     // while(LinkListGetLength(pList, &size) && pos != NOT_FIND)
     /* 根据指定的元素得到在链表中所在的位置 */    
-    while(LinkListAccordingApppointValGetPos(pList, val, &pos, compareFunc) != NOT_FIND)
+    while(LinkListAccordingAppointValGetPos(pList, val, &pos, compareFunc) != NOT_FIND)
     {
         /* 根据指定的元素得到在链表中所在的位置 */    
-        // LinkListAccordingApppointValGetPos(pList, val, &pos, compareFunc);
+        LinkListAccordingAppointValGetPos(pList, val, &pos, compareFunc);
         LinkListDelAppointPos(pList, pos);
     }
     return ret;

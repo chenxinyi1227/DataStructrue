@@ -15,7 +15,7 @@ enum STATUS_CODE
 
 /* 静态函数只给本源文件（.c)的函数使用 */
 /* 静态前置声明 */
-static int doubleLinkListAccordApppointValGetPos(doubleLinkList *pList, ELEMENTTYPE val, int *pPos, int(*compareFunc)(ELEMENTTYPE,ELEMENTTYPE));
+static int doubleLinkListAccordAppointValGetPos(doubleLinkList *pList, ELEMENTTYPE val, int *pPos, int(*compareFunc)(ELEMENTTYPE,ELEMENTTYPE));
 /* 新建新节点封装成函数 */
 static doubleLinkNode *createdoubleLinkList(ELEMENTTYPE val);
 
@@ -225,7 +225,7 @@ doubleLinkNode * travelNode = pList->head->next;
 }
 
 /* 根据指定的元素得到在链表中所在的位置 */
-static int doubleLinkListAccordApppointValGetPos(doubleLinkList *pList, ELEMENTTYPE val, int *pPos, int(*compareFunc)(ELEMENTTYPE,ELEMENTTYPE))
+static int doubleLinkListAccordAppointValGetPos(doubleLinkList *pList, ELEMENTTYPE val, int *pPos, int(*compareFunc)(ELEMENTTYPE,ELEMENTTYPE))
 {
     /* 静态函数只给本源文件的函数使用，不需要判断合法性 */
     int ret;
@@ -266,8 +266,10 @@ int doubleLinkListDelAppointData(doubleLinkList *pList, ELEMENTTYPE val, int (*c
     int ret = 0;
     int pos = 0;        //元素在链表中的位置
     int size = 0;       //链表的长度
-    while(doubleLinkListAccordApppointValGetPos(pList, val, &pos, compareFunc) != NOT_FIND)
+    while(doubleLinkListAccordAppointValGetPos(pList, val, &pos, compareFunc) != NOT_FIND)
     {
+        /* 根据指定的元素得到在链表中所在的位置 */
+        doubleLinkListAccordAppointValGetPos(pList, val, &pos, compareFunc);
         doubleLinkListDelAppointPos(pList, pos);
     }
     return ret;
@@ -383,7 +385,7 @@ int doubleLinkListReverseForeach(doubleLinkList *pList, int(*printFunc)(ELEMENTT
 /* 获取链表头位置的值 */
 int doubleLinkListGetHeadVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
 {
-    #if 0
+    #if 1
     int ret = 0;
     if(pList == NULL)
     {
@@ -395,7 +397,7 @@ int doubleLinkListGetHeadVal(doubleLinkList *pList, ELEMENTTYPE *pVal)
     }
     return ret = 0;
     #else
-    return doubleLinkListGetAppointPosVal(pList, 1, pVal);
+    return doubleLinkListGetAppointPosVal(pList, 0, pVal);
     #endif
 } 
 /* 获取链表尾位置的值 */
