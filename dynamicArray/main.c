@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "dynamicArray.h"
+#include <myArray.h>
 #include <string.h>
 
 #define BUFFER_SIZE 20
