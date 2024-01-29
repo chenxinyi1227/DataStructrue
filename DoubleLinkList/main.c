@@ -1,6 +1,7 @@
+#include <doubleLinkList.h>
 #include <stdio.h>
-#include "doubleLinkList.h"
 #include <string.h>
+
 
 #define BUFFER_SIZE    3
 
@@ -38,7 +39,6 @@ int main()
     doubleLinkList *list = NULL;
     /* 初始化链表 */
     doubleLinkListInit(&list);
-
     
 #if 1
     int buffer[BUFFER_SIZE] = {1, 2, 3};
