@@ -1,10 +1,10 @@
 src=main.c
 TARGET=test
 ${TARGET}:${src}
-	gcc ${src} -o ${TARGET} -ldoubleLinkList
+	gcc ${src} -o ${TARGET} -lmyLinkList
 
-libsrc=doubleLinkList.c
-LIBTARGET=libdoubleLinkList.so
+libsrc=myLinkList.c
+LIBTARGET=libmyLinkList.so
 ${LIBTARGET}:${libsrc}
 	gcc -shared -fPIC ${libsrc} -o ${LIBTARGET}
 
@@ -17,4 +17,4 @@ clean:
 
 install:                  
 	sudo cp ${LIBTARGET} /usr/lib
-	sudo cp doubleLinkList.h /usr/include/
+	sudo cp myLinkList.h /usr/include/

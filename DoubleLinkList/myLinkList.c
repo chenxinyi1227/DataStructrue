@@ -1,4 +1,4 @@
-#include "doubleLinkList.h"
+#include "myLinkList.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
