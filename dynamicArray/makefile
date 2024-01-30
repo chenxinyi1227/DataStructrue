@@ -1,7 +1,7 @@
 src=*.c
 TARGET=test
 ${TARGET}:${src}
-	gcc ${src} -o ${TARGET}
+	gcc ${src} -o ${TARGET} -lmyArray
 
 libsrc=myArray.c
 LIBTARGET=libmyArray.so
