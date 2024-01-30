@@ -1,10 +1,22 @@
-#src=main.c doubleLinkList.c doubleLinkListQueue.c balanceBinarySearchTree.c
-src=*.c
-test:${src}
-	gcc ${src} -o test
+src=main.c
+TARGET=test
+OBJ=-lmyAVLTree -lmyQueue -lmyLinkList
+${TARGET}:${src}
+	gcc ${src} -o ${TARGET} ${OBJ}
 
-g:${src}
-	gcc -g ${src} -o gtest
+
+libsrc=myAVLTree.c
+LIBTARGET=libmyAVLTree.so
+
+${LIBTARGET}:${libsrc}
+	gcc -shared -fPIC ${libsrc} -o ${LIBTARGET}
+
+.PHONY:all clean install
+
+all:${TARGET} ${LIBTARGET}
 
 clean:
-	@rm -rf test gtest
+	rm -f ${TARGET} ${LIBTARGET}
+install:                  
+	sudo cp ${LIBTARGET} /usr/lib/
+	sudo cp myAVLTree.h /usr/include/

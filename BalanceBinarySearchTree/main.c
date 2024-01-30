@@ -1,6 +1,5 @@
+#include <myAVLTree.h>
 #include <stdio.h>
-#include "balanceBinarySearchTree.h"
-
 
 #define BUFFER_SIZE 3
 

@@ -1,6 +1,6 @@
 #ifndef _BALANCE_BINARY_SEARCH_TREE__H
 #define _BALANCE_BINARY_SEARCH_TREE__H
-#include "common.h"
+#include <myQueue.h>
 // #define ELEMENTTYPE int
 
 typedef struct AVLTreeNode
@@ -15,7 +15,7 @@ typedef struct AVLTreeNode
 }AVLTreeNode;
 
 /* 二叉搜索树 */
-typedef struct balanceBinarySearchTree
+typedef struct AVLTree
 {
     AVLTreeNode * root;//根结点
     int size; //树的结点个数
@@ -24,38 +24,38 @@ typedef struct balanceBinarySearchTree
 #if 0
     doubleLinkListQueue *pQueue;
 #endif
-}balanceBinarySearchTree;
+}AVLTree;
 
 /* 二叉搜索树的初始化 */
-int balanceBinarySearchTreeInit(balanceBinarySearchTree **pAvltree, int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val));
+int AVLTreeInit(AVLTree **pAvltree, int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val));
 
 /* 二叉搜索树的插入 */
-int balanceBinarySearchTreeInsert(balanceBinarySearchTree *pAvltree, ELEMENTTYPE val);
+int AVLTreeInsert(AVLTree *pAvltree, ELEMENTTYPE val);
 
 /* 二叉搜索树是否包含指定元素 */
-int balanceBinarySearchTreeIsContainAppointVal(balanceBinarySearchTree *pAvltree, ELEMENTTYPE val);
+int AVLTreeIsContainAppointVal(AVLTree *pAvltree, ELEMENTTYPE val);
 
 /* 二叉树先序遍历 */
-int balanceBinarySearchTreePreOrderTraverse(balanceBinarySearchTree *pAvltree);
+int AVLTreePreOrderTraverse(AVLTree *pAvltree);
 
 /* 二叉树中序遍历 */
-int balanceBinarySearchTreeMidOrderTraverse(balanceBinarySearchTree *pAvltree);
+int AVLTreeMidOrderTraverse(AVLTree *pAvltree);
 
 /* 二叉树后序遍历 */
-int balanceBinarySearchTreePosOrderTraverse(balanceBinarySearchTree *pAvltree);
+int AVLTreePosOrderTraverse(AVLTree *pAvltree);
 
 /* 二叉树层序遍历 */
-int balanceBinarySearchTreeLevelOrderTraverse(balanceBinarySearchTree *pAvltree);
+int AVLTreeLevelOrderTraverse(AVLTree *pAvltree);
 
 /* 获取二叉搜索树的节点个数 */
-int balanceBinarySearchTreeGetNodeSize(balanceBinarySearchTree *pAvltree, int *pSize);
+int AVLTreeGetNodeSize(AVLTree *pAvltree, int *pSize);
 
 /* 获取二叉树的高度:需要记录每一层的结点树->每一层的节点数技术完成，就是树的高度加1 */
-int balanceBinarySearchTreeGetHeight(balanceBinarySearchTree *pAvltree, int *pHeight);
+int AVLTreeGetHeight(AVLTree *pAvltree, int *pHeight);
 
 /* 二叉树的删除 */
-int balanceBinarySearchTreeDelete(balanceBinarySearchTree *pAvltree, ELEMENTTYPE val);
+int AVLTreeDelete(AVLTree *pAvltree, ELEMENTTYPE val);
 
 /* 二叉树的销毁 */
-int balanceBinarySearchTreeDestroy(balanceBinarySearchTree *pAvltree);
+int AVLTreeDestroy(AVLTree *pAvltree);
 #endif
