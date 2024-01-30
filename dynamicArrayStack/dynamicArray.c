@@ -1,4 +1,3 @@
-#include "common.h"
 #include "dynamicArray.h"
 #include <stdio.h>
 #include <string.h>

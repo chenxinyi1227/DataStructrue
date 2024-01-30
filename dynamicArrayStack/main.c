@@ -1,4 +1,4 @@
-#include "dynamicArrayStack.h"
+#include <myStack.h>
 #include <stdio.h>
 /* 怎么解决套壳问题 */
 #define BUFFER_SIZE 5

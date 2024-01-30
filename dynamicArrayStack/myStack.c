@@ -1,5 +1,5 @@
-#include "dynamicArrayStack.h"
-#include "dynamicArray.h"
+#include "myStack.h"
+
 #define DEFAULT_SIZE 10
 /* 栈的初始化 */
 int dynamicArrayStackInit(dynamicArrayStack *pStack)

@@ -1,7 +1,7 @@
+#include <myArray.h>
 #ifndef _DYNAMIC_ARRAY_STACK_H_
 #define _DYNAMIC_ARRAY_STACK_H_
-// #include "dynamicArray.h"
-#include "common.h"
+
 typedef dynamicArray dynamicArrayStack;
 
 /* 栈的初始化 */
