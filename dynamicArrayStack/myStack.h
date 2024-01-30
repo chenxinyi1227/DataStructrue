@@ -2,27 +2,27 @@
 #ifndef _DYNAMIC_ARRAY_STACK_H_
 #define _DYNAMIC_ARRAY_STACK_H_
 
-typedef dynamicArray dynamicArrayStack;
+typedef dynamicArray stack;
 
 /* 栈的初始化 */
-int dynamicArrayStackInit(dynamicArrayStack *pStack);
+int stackInit(stack *pStack);
 
 /* 压栈 */
-int dynamicArrayStackPush(dynamicArrayStack *pStack, ELEMENTTYPE val);
+int stackPush(stack *pStack, ELEMENTTYPE val);
 
 /* 查看栈顶元素 */
-int dynamicArrayStackTop(dynamicArrayStack *pStack, ELEMENTTYPE *pVal);
+int stackTop(stack *pStack, ELEMENTTYPE *pVal);
 
 /* 出栈 */
-int dynamicArrayStackPop(dynamicArrayStack *pStack);
+int stackPop(stack *pStack);
 
 /* 栈是否为空 */
-int dynamicArrayStackIsEmpty(dynamicArrayStack *pStack);
+int stackIsEmpty(stack *pStack);
 
 /* 获取栈的大小 */
-int dynamicArrayStackGetSize(dynamicArrayStack *pStack, int *pSize);
+int stackGetSize(stack *pStack, int *pSize);
 
 /* 栈的销毁 */
-int dynamicArrayStackDestroy(dynamicArrayStack *pStack);
+int stackDestroy(stack *pStack);
 
 #endif
