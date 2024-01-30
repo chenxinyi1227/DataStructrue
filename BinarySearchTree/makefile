@@ -1,25 +1,22 @@
 src=main.c
 TARGET=test
+OBJ=-lmyBSTree -lmyQueue -lmyLinkList
 ${TARGET}:${src}
-	gcc ${src} -o ${TARGET} -lmyBST
+	gcc ${src} -o ${TARGET} ${OBJ}
 
-
-libsrc=$(patsubst %.c,%.o, $(wildcard ./*.c))
-LIBTARGET=libmyBST.so
+libsrc=myBSTree.c
+LIBTARGET=libmyBSTree.so
 
 ${LIBTARGET}:${libsrc}
 	gcc -shared -fPIC ${libsrc} -o ${LIBTARGET}
 
-%.o:%.c
-	${CC} -c $^ -o $@
-	
 .PHONY:all clean install
 
 all:${TARGET} ${LIBTARGET}
 
 clean:
-	rm -f ${TARGET} ${LIBTARGET} *.o
+	rm -f ${TARGET} ${LIBTARGET}
 
 install:                  
 	sudo cp ${LIBTARGET} /usr/lib
-	sudo cp myBST.h /usr/include/
+	sudo cp myBSTree.h /usr/include/

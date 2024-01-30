@@ -1,4 +1,4 @@
-#include <myBST.h>
+#include <myBSTree.h>
 #include <stdio.h>
 #define BUFFER_SIZE 5
 
@@ -20,7 +20,7 @@ int printBasicData(void *arg)
 }
 int main()
 {
-    binarySearchTree * BST;
+    BSTree * BST;
     binarysearchTreeInit(&BST, compareBasicFunc, printBasicData);
     int buffer[BUFFER_SIZE] = {56, 28, 75, 73, 77};
     for(int idx = 0; idx < BUFFER_SIZE; idx++)
@@ -29,42 +29,42 @@ int main()
     }
     /* 获取二叉搜索树的节点个数 */
     int size = 0;
-    binarySearchTreeGetNodeSize(BST, &size);
+    BSTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
 
     /* 获取二叉搜索树的高度 */
     int height = 0;
-    binarySearchTreeGetHeight(BST,&height);
+    BSTreeGetHeight(BST,&height);
     printf("height:%d\n", height);
     
     /* 中序遍历 */
     printf("中序遍历\n");
-    binarySearchTreeMidOrderTraverse(BST);
+    BSTreeMidOrderTraverse(BST);
     printf("\n");
     /* 层序遍历 */
     printf("层序遍历\n");
-    binarySearchTreeLevelOrderTraverse(BST);
+    BSTreeLevelOrderTraverse(BST);
     printf("\n");
 
 {
     /* 删除度为2 */
     int delVal = 56;
-    binarySearchTreeDelete(BST, &delVal);
+    BSTreeDelete(BST, &delVal);
     printf("\n");
 
     /* 获取二叉搜索树的节点个数 */
     int size = 0;
-    binarySearchTreeGetNodeSize(BST, &size);
+    BSTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
 
     /* 获取二叉搜索树的高度 */
     int height = 0;
-    binarySearchTreeGetHeight(BST,&height);
+    BSTreeGetHeight(BST,&height);
     printf("height:%d\n", height);
 
      /* 层序遍历 */
     printf("层序遍历\n");
-    binarySearchTreeLevelOrderTraverse(BST);
+    BSTreeLevelOrderTraverse(BST);
     printf("\n");
 }
 

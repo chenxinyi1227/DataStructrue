@@ -14,7 +14,7 @@ typedef struct BSTreeNode
 }BSTreeNode;
 
 /* 二叉搜索树 */
-typedef struct binarySearchTree
+typedef struct BSTree
 {
     BSTreeNode * root;//根结点
     int size; //树的结点个数
@@ -23,38 +23,38 @@ typedef struct binarySearchTree
 #if 0
     doubleLinkListQueue *pQueue;
 #endif
-}binarySearchTree;
+}BSTree;
 
 /* 二叉搜索树的初始化 */
-int binarysearchTreeInit(binarySearchTree **pBstree, int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val));
+int binarysearchTreeInit(BSTree **pBstree, int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val));
 
 /* 二叉搜索树的插入 */
-int binarysearchTreeInsert(binarySearchTree *pBstree, ELEMENTTYPE val);
+int binarysearchTreeInsert(BSTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉搜索树是否包含指定元素 */
-int binarySearchTreeIsContainAppointVal(binarySearchTree *pBstree, ELEMENTTYPE val);
+int BSTreeIsContainAppointVal(BSTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉树先序遍历 */
-int binarySearchTreePreOrderTraverse(binarySearchTree *pBstree);
+int BSTreePreOrderTraverse(BSTree *pBstree);
 
 /* 二叉树中序遍历 */
-int binarySearchTreeMidOrderTraverse(binarySearchTree *pBstree);
+int BSTreeMidOrderTraverse(BSTree *pBstree);
 
 /* 二叉树后序遍历 */
-int binarySearchTreePosOrderTraverse(binarySearchTree *pBstree);
+int BSTreePosOrderTraverse(BSTree *pBstree);
 
 /* 二叉树层序遍历 */
-int binarySearchTreeLevelOrderTraverse(binarySearchTree *pBstree);
+int BSTreeLevelOrderTraverse(BSTree *pBstree);
 
 /* 获取二叉搜索树的节点个数 */
-int binarySearchTreeGetNodeSize(binarySearchTree *pBstree, int *pSize);
+int BSTreeGetNodeSize(BSTree *pBstree, int *pSize);
 
 /* 获取二叉树的高度:需要记录每一层的结点树->每一层的节点数技术完成，就是树的高度加1 */
-int binarySearchTreeGetHeight(binarySearchTree *pBstree, int *pHeight);
+int BSTreeGetHeight(BSTree *pBstree, int *pHeight);
 
 /* 二叉树的删除 */
-int binarySearchTreeDelete(binarySearchTree *pBstree, ELEMENTTYPE val);
+int BSTreeDelete(BSTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉树的销毁 */
-int binarySearchTreeDestroy(binarySearchTree *pBstree);
+int BSTreeDestroy(BSTree *pBstree);
 #endif
