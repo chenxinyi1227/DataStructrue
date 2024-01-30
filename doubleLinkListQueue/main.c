@@ -1,6 +1,6 @@
-#include "doubleLinkListQueue.h"
-#include "doubleLinkList.h"
+#include <myQueue.h>
 #include <stdio.h>
+
 #define BUFFER_ZIZE 5
 int main()
 {
