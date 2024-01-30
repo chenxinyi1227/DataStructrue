@@ -1,5 +1,6 @@
-#include "set.h"
+#include <mySet.h>
 #include <stdio.h>
+
 #define BUFFER_SIZE 5
 
 /* 测试二叉搜索树 */
@@ -21,7 +22,7 @@ int printBasicData(void *arg)
 int main()
 {
     set * SET;
-    balanceBinarySearchTreeInit(&SET, compareBasicFunc, printBasicData);
+    AVLTreeInit(&SET, compareBasicFunc, printBasicData);
     int buffer[BUFFER_SIZE] = {11, 11, 22, 33,22};
     for(int idx = 0; idx < BUFFER_SIZE; idx++)
     {
@@ -60,28 +61,28 @@ int main()
 #if 0
     /* 中序遍历 */
     printf("中序遍历\n");
-    balanceBinarySearchTreeMidOrderTraverse(SET);
+    AVLTreeMidOrderTraverse(SET);
     printf("\n");
 
 {
     /* 删除度为2 */
     int delVal = 56;
-    balanceBinarySearchTreeDelete(SET, &delVal);
+    AVLTreeDelete(SET, &delVal);
     printf("\n");
 
     /* 获取二叉搜索树的节点个数 */
     int size = 0;
-    balanceBinarySearchTreeGetNodeSize(SET, &size);
+    AVLTreeGetNodeSize(SET, &size);
     printf("size:%d\n", size);
 
     /* 获取二叉搜索树的高度 */
     int height = 0;
-    balanceBinarySearchTreeGetHeight(SET,&height);
+    AVLTreeGetHeight(SET,&height);
     printf("height:%d\n", height);
 
      /* 层序遍历 */
     printf("层序遍历\n");
-    balanceBinarySearchTreeLevelOrderTraverse(SET);
+    AVLTreeLevelOrderTraverse(SET);
     printf("\n");
 }
 #endif

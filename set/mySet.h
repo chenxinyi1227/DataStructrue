@@ -1,9 +1,9 @@
 #ifndef _SET_H_
 #define _SET_H_
 
-#include "balanceBinarySearchTree.h"
+#include <myAVLTree.h>
 
-typedef balanceBinarySearchTree set;
+typedef AVLTree set;
 /* 集合初始化 */
 set setInit(set **setTree, int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val));
 /* 集合添加元素 */

@@ -1,10 +1,22 @@
-#src=main.c doubleLinkList.c doubleLinkListQueue.c balanceBinarySearchTree.c set.c
-src=*.c
-test:${src}
-	gcc ${src} -o test
+src=main.c
+TARGET=test
+OBJ=-lmySet -lmyAVLTree -lmyQueue -lmyLinkList
+${TARGET}:${src}
+	gcc ${src} -o ${TARGET} ${OBJ}
 
-g:${src}
-	gcc -g ${src} -o gtest
+
+libsrc=mySet.c
+LIBTARGET=libmySet.so
+
+${LIBTARGET}:${libsrc}
+	gcc -shared -fPIC ${libsrc} -o ${LIBTARGET}
+
+.PHONY:all clean install
+
+all:${TARGET} ${LIBTARGET}
 
 clean:
-	@rm -rf test gtest
+	rm -f ${TARGET} ${LIBTARGET}
+install:                  
+	sudo cp ${LIBTARGET} /usr/lib/
+	sudo cp mySet.h /usr/include/
