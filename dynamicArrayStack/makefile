@@ -1,7 +1,8 @@
 src=main.c
 TARGET=test
+OBJ=-lmyStack -lmyArray
 ${TARGET}:${src}
-	gcc ${src} -o ${TARGET} -lmyStack -lmyArray
+	gcc ${src} -o ${TARGET} ${OBJ}
 
 
 libsrc=myStack.c
