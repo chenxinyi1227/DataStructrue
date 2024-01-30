@@ -4,6 +4,7 @@
 #include <myAVLTree.h>
 
 typedef AVLTree set;
+
 /* 集合初始化 */
 set setInit(set **setTree, int(*cpmpareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int (*visit)(ELEMENTTYPE val));
 /* 集合添加元素 */
