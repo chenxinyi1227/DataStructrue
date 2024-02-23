@@ -1,29 +1,77 @@
-#include "hashTable.h"
+#include "hashtable.h"
 #include <stdio.h>
-#include <time.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 
-#define VLAUE_NUM   10
-#define RANDOM_NUM  666
 
-int main(int argc, char const *argv[])
+/* 自定义比较器 */
+int compareFunc(void *val1, void *val2)
 {
-    // srand(time(NULL));
+    hashNode *key1 = (hashNode *)val1;
+    hashNode *key2 = (hashNode *)val2;
 
-    HashTable *hashtable = hashTableInit();
-    if (hashtable == NULL)
-    {
-        return -1;
-    }
+    return key1->real_key - key2->real_key;
+}
+
+
+int main()
+{
+    HashTable *hash = NULL;
+
+    int slotNums = 10;
+    /* 哈希表的初始化 */
+    hashTableInit(&hash, slotNums, compareFunc);
+
+    /* 哈希表 插入<key, value> */
+    hashTableInsert(hash, 11, 666);
+    hashTableInsert(hash, 81, 777);
+    hashTableInsert(hash, 101, 999);
+
     
-    // for (int idx = 0; idx < VLAUE_NUM; idx++)
-    // {
-    //     // int value = rand() % 1000;
-    //     hashTableInsert(&hashtable, idx, RANDOM_NUM);
-    // }
-    hashTableInsert(hashtable, 1, 68);
-    hashTableInsert(hashtable, 11, 79);
-    int value = getAppointKeyValue(hashtable, 1);
-    printf ("value:%d\n", value);
-    return 0;
+
+    int value = 0;
+    int ret = hashTableGetAppointKeyValue(hash, 11, &value);
+    if (ret == -1)
+    {
+        printf("not fount...\n");
+    }
+    else
+    {
+        printf("value:%d\n", value);
+    }
+
+    ret = hashTableGetAppointKeyValue(hash, 81, &value);
+    if (ret == -1)
+    {
+        printf("not fount...\n");
+    }
+    else
+    {
+        printf("value:%d\n", value);
+    }
+
+    ret = hashTableGetAppointKeyValue(hash, 101, &value);
+    if (ret == -1)
+    {
+        printf("not fount...\n");
+    }
+    else
+    {
+        printf("value:%d\n", value);
+    }
+
+
+    hashTableDelAppointKey(hash, 101);
+
+    ret = hashTableGetAppointKeyValue(hash, 101, &value);
+    if (ret == -1)
+    {
+        printf("not fount...\n");
+    }
+    else
+    {
+        printf("value:%d\n", value);
+    }
+
+    /* 释放 */
+    hashTableDestroy(hash);
 }
