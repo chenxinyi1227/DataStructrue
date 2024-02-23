@@ -2,29 +2,29 @@
 #ifndef _DOUBLELISTLINK_QUEUE_H_
 #define _DOUBLELISTLINK_QUEUE_H_
 
-typedef doubleLinkList queue;
+typedef doubleLinkList doubleLinkListQueue;
 
 /* 队列初始化 */
-int queueInit(queue **pQueue);
+int doubleLinkListQueueInit(doubleLinkListQueue **pQueue);
 
 /* 队列入队 */
-int queuePush(queue *pQueue, ELEMENTTYPE val);
+int doubleLinkListQueuePush(doubleLinkListQueue *pQueue, ELEMENTTYPE val);
 
 /* 队头元素 */
-int queueTop(queue *pQueue, ELEMENTTYPE *val);
+int doubleLinkListQueueTop(doubleLinkListQueue *pQueue, ELEMENTTYPE *val);
 
 /* 队尾元素 */
-int queueRear(queue *pQueue, ELEMENTTYPE *val);
+int doubleLinkListQueueRear(doubleLinkListQueue *pQueue, ELEMENTTYPE *val);
 
 /* 队列出列 */
-int queuePop(queue *pQueue);
+int doubleLinkListQueuePop(doubleLinkListQueue *pQueue);
 
 /* 队列大小 */
-int queueGetSize(queue *pQueue, int *pSize);
+int doubleLinkListQueueGetSize(doubleLinkListQueue *pQueue, int *pSize);
 
 /* 队列是否为空 */
-int queueIsEmpty(queue *pQueue);
+int doubleLinkListQueueIsEmpty(doubleLinkListQueue *pQueue);
 
 /* 队列销毁 */
-int queueDestroy(queue *pQueue);
+int doubleLinkListQueueDestroy(doubleLinkListQueue *pQueue);
 #endif

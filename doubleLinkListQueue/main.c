@@ -4,24 +4,24 @@
 #define BUFFER_ZIZE 5
 int main()
 {
-    queue *myQueue = NULL;
-    queueInit(&myQueue);
-
+    doubleLinkListQueue *myQueue = NULL;
+    doubleLinkListQueueInit(&myQueue);
+    
     int buffer[BUFFER_ZIZE] = {1,2, 3, 4, 5};
     for(int idx = 0; idx < BUFFER_ZIZE; idx++)
     {
-        queuePush(myQueue, (void*)&buffer[idx]);
+        doubleLinkListQueuePush(myQueue, (void*)&buffer[idx]);
     }
     int size = 0;
-    queueGetSize(myQueue, &size);
+    doubleLinkListQueueGetSize(myQueue, &size);
     printf("size:%d\n", size);
 
     int *val = NULL;
-    while(!queueIsEmpty(myQueue))
+    while(!doubleLinkListQueueIsEmpty(myQueue))
     {
-        queueTop(myQueue, (void **)&val);
+        doubleLinkListQueueTop(myQueue, (void **)&val);
         printf("val:%d\n", *val);
-        queuePop(myQueue);
+        doubleLinkListQueuePop(myQueue);
     } 
     return 0;
 }
